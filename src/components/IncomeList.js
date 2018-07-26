@@ -8,7 +8,7 @@ const IncomeList = (props) => (
     <div>{props.income.length === 0
       ? "No income added yet"
       : props.income.map((income) => {
-        return <IncomeListItem {...income} key={income.id} />
+        return <IncomeListItem {...income} key={income.incomeId} />
       })}
     </div>
   </div>

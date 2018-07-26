@@ -8,13 +8,15 @@ export class AddIncomePage extends React.Component {
   onSubmit = (income) => {
     this.props.addIncome(income);
     this.props.history.push('/');
-
-    console.log('hit parent onSubmit');
   }
   render() {
     return (
       <div>
-        <h2>Enter your income</h2>
+        <div className="page-header">
+          <div className="content-container">
+            <h2 className="page-header__title">Enter your income</h2>
+          </div>
+        </div>
         <IncomeForm
           onSubmit={this.onSubmit} />
       </div>

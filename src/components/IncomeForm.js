@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Picker from './Picker';
+import Select from 'react-select';
 
 export class IncomeForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: 'Primary',
+      incomeType: props.income ? props.income.incomeType : 'Primary',
+      incomeTypeId: props.income ? props.income.incomeTypeId : 1,
       description: props.income ? props.income.description : '',
       amount: props.income ? (props.expense.amount / 100).toString() : '',
-      frequency: props.income ? props.income.frequency : 'Bi-weekly',
+      frequencyType: props.income ? props.income.frequencyType : 'Bi-weekly',
+      frequencyTypeId: props.income ? props.income.frequencyTypeId : 3,
       error: ''
     };
   }
@@ -23,12 +25,17 @@ export class IncomeForm extends React.Component {
     const description = e.target.value;
     this.setState(() => ({ description }));
   }
-  onFrequencyChange = (e) => {
-    const frequency = e.target.value;
-    this.setState(() => ({ frequency }));
+  onFrequencySelection = (frequencyType) => {
+    this.setState(() => ({
+      frequencyType: frequencyType.type,
+      frequencyTypeId: frequencyType.id
+    }));
   }
-  toggleSelected = (e) => {
-    console.log(e.target.value);
+  onIncomeSelection = (incomeType) => {
+    this.setState(() => ({
+      incomeType: incomeType.type,
+      incomeTypeId: incomeType.id
+    }));
   }
   onSubmit = (e) => {
     e.preventDefault();
@@ -39,10 +46,12 @@ export class IncomeForm extends React.Component {
     } else {
 
       this.props.onSubmit({
-        type: 'Primary',
+        incomeType: this.state.incomeType,
+        incomeTypeId: this.state.incomeTypeId,
         description: this.state.description,
         amount: this.state.amount,
-        frequency: this.state.frequency
+        frequencyType: this.state.frequencyType,
+        frequencyTypeId: this.state.frequencyTypeId
       });
     }
   }
@@ -54,7 +63,7 @@ export class IncomeForm extends React.Component {
           onSubmit={this.onSubmit}>
           {this.state.error && <p className="form__error">{this.state.error}</p>}
           <input
-            type="number"
+            type="integer"
             className="text-input"
             placeholder="How much do you make per paycheck?"
             value={this.state.amount}
@@ -64,14 +73,19 @@ export class IncomeForm extends React.Component {
             placeholder="Enter a description"
             value={this.state.description}
             onChange={this.onDescriptionChange} />
-          <Picker
-            title="How often do you get paid?"
-            list={this.props.frequencyType}
-            toggleSelected={this.toggleSelected} />
-          <Picker
-            title="Is this your primary or secondary income?"
-            list={this.props.incomeType}
-            onClick={this.toggleSelected} />
+          <div className="picker">
+            <Select
+              placeholder="How often do you get paid?"
+              options={this.props.frequencyType}
+              value={this.selectedOption}
+              onChange={this.onFrequencySelection} />
+          </div>
+          <div className="picker">
+            <Select
+              placeholder="Is this your primary or secondary income?"
+              options={this.props.incomeType}
+              onChange={this.onIncomeSelection} />
+          </div>
           <div>
             <button className="button">Save Income</button>
 

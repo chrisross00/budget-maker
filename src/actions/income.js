@@ -2,18 +2,22 @@ import uuid from 'uuid';
 
 export const addIncome = (
   {
-    type = 0,
+    incomeType = '',
+    incomeTypeId = 0,
     description = '',
     amount = 0,
-    frequency = ''
+    frequencyType = '',
+    frequencyTypeId
   } = {}
 ) => ({
   type: 'ADD_INCOME',
   income: {
-    id: uuid(),
-    type,
+    incomeId: uuid(),
+    incomeType,
+    incomeTypeId,
     description,
     amount,
-    frequency
+    frequencyType,
+    frequencyTypeId
   }
 });

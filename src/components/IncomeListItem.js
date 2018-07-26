@@ -1,8 +1,8 @@
 import React from 'react';
 
-const IncomeListItem = ({ description, amount, frequency, type }) => (
+const IncomeListItem = ({ description, amount, frequencyType, incomeType }) => (
   <div>
-    {description} - {amount} - {frequency} - {type}
+    {description} - {amount} - {frequencyType} - {incomeType}
   </div>
 );
 

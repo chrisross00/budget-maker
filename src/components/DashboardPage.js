@@ -8,9 +8,13 @@ const ExpenseDashboardPage = (props) => (
   <div className="content-container">
     <Link
       to="/income">
-      <h1>Add your income</h1>
+      <h1>Step 1. Add your income</h1>
     </Link>
     <IncomeList />
+    <Link
+      to="/expenses">
+      <h1>Step 2. Add your monthly expenses</h1>
+    </Link>
   </div>
 );
 
