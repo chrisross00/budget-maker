@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render IncomeForm 1`] = `
+<div
+  className="content-container"
+>
+  <form
+    className="form"
+  >
+    <input
+      className="text-input"
+      placeholder="How much do you make per paycheck?"
+    />
+    <Picker
+      title="Is this your primary or secondary income?"
+    />
+  </form>
+  <button
+    className="button"
+  >
+    Save Income
+  </button>
+</div>
+`;

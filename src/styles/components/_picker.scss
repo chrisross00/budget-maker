@@ -1,0 +1,45 @@
+.picker {
+  cursor: pointer;
+  max-width: 40rem;
+}
+
+.picker__header {
+  border: 1px solid $border-grey;
+  font-weight: 800;
+  height: 50px;
+  width: 100%;
+  justify-content: center;
+  overflow: hidden;
+  float: left;
+}
+
+.picker__arrow {
+  padding: $s-size;
+  display: inline;
+  float: right;
+}
+
+.picker__tray {
+  border: 1px solid $border-grey;
+  border-top: none;
+  padding: none;
+}
+
+.picker-list {
+  padding: inherit;
+  padding-left: 1.5rem;
+  margin-top: $s-size;
+}
+
+.picker-list-item {
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  padding-left: none;
+  list-style: none;
+  display: block;
+  transition: .2s ease-in;
+  &:hover {
+    background: $off-white;
+  }
+}

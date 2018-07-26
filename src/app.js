@@ -40,3 +40,4 @@ firebase.auth().onAuthStateChanged((user) => {
     history.push('/');
   }
 });
+console.log(store.getState());
