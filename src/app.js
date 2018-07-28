@@ -9,6 +9,8 @@ import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
+import expensesFixture from './tests/fixures/expenses';
+import { addExpense } from './actions/expense';
 
 const store = configureStore();
 const jsx = (
@@ -23,6 +25,8 @@ const renderApp = () => {
     hasRendered = true;
   }
 };
+// RATS - this is just to get an expense object in for testing purposes
+store.dispatch(addExpense(expensesFixture[0]));
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 

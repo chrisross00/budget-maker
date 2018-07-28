@@ -8,7 +8,7 @@ const GoalListItem = ({
   startingCash }
 ) => (
     <div>
-      <h2>{`Goal Name: ${name}`}</h2>
+      <h3>{`Goal Name: ${name}`}</h3>
       <p>{`Target: ${target}`}</p>
       <p>{`Amount saved per month: ${contributableAmount}`}</p>
       <p>{`Minimum monthly savings: ${monthlyRequiredAmount}`}</p>

@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import authReducer from '../reducers/auth';
 import expenseCategoryReducer from '../reducers/expenseCategory';
+import emergencyFundReducer from '../reducers/emergencyFund';
 import expenseReducer from '../reducers/expense';
 import expenseTypeReducer from '../reducers/expenseType';
 import frequencyTypeReducer from '../reducers/frequencyType';
@@ -15,6 +16,7 @@ export default () => {
   const store = createStore(
     combineReducers({
       auth: authReducer,
+      emergencyFund: emergencyFundReducer,
       expense: expenseReducer,
       expenseCategory: expenseCategoryReducer,
       expenseType: expenseTypeReducer,

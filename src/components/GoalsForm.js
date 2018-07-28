@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import CreatableSelect from 'react-select/lib/Creatable';
 import numeral from 'numeral';
+import expensesTotal from '../selectors/expenses-total';
 
 class GoalsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.goal ? this.props.goal.name : 'Savings Goal',
+      name: this.props.goal ? this.props.goal.name : '',
       target: this.props.goal ? this.props.goal.target : '',
       monthlyRequiredAmount: this.props.goal ? this.props.goal.monthlyRequiredAmount : '',
       projection: this.props.goal ? this.props.goal.projection : '',
@@ -17,42 +19,80 @@ class GoalsForm extends React.Component {
       duration: '',
       error: '',
       startingCash: '',
-      willMakeGoal: false
+      willMakeGoal: false,
+      pickerSelection: '',
+      terminateOptions: [{ id: 4, label: 'End of year' }, { id: 5, label: 'Whenever' }],
+      terminateSelection: 0,
+      timeToHitGoal: ''
+    }
+  }
+  handlePickerChange = (selection) => {
+    console.log('HANDLEPICKERCHANGE: else', selection);
+    if (selection) {
+      if (selection.id === 1 || selection.id === 2) {
+        this.setState(() => ({
+          selection: selection.id,
+          target: expensesTotal(this.props.expenses) * selection.duration,
+          name: selection.label,
+          value: expensesTotal(this.props.expenses) * selection.duration
+        }))
+      } else if (selection.id === 3) {
+        this.setState(() => ({
+          selection: selection.id,
+          target: '',
+          name: selection.label,
+          value: ''
+        }))
+      } else if (selection.id === 4 || selection.id == 5) {
+        this.setState(() => ({
+          selection: selection.id,
+          terminateSelection: selection.id
+        }))
+      }
+    } else {
+      this.setState(() => ({
+        selection: '',
+        target: '',
+        name: '',
+        value: ''
+      }))
     }
   }
   onAmountChange = (e) => {
     e.preventDefault();
-
+    const id = e.target.id;
     const amount = e.target.value;
     if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
-      this.setState(() => ({ target: amount, changed: true }));
+      switch (id) {
+        case 'target':
+          return this.setState(() => ({ target: amount, changed: true }));
+        case 'savings':
+          return this.setState(() => ({ startingCash: amount, changed: true }));
+        case 'contribution':
+          return this.setState(() => ({ contributableAmount: amount, changed: true }));
+        default:
+          return;
+      }
     }
   }
-  onSavingsChange = (e) => {
-    e.preventDefault();
-    const amount = e.target.value;
-    if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
-      this.setState(() => ({ startingCash: amount, changed: true }));
-    }
-  }
-  onContributionChange = (e) => {
-    e.preventDefault();
-    const amount = e.target.value;
-    if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
-      this.setState(() => ({ contributableAmount: amount, changed: true }));
-    }
+  onFrequencySelection = (frequencyType) => {
+    this.setState(() => ({
+      frequencyType: frequencyType.type,
+      frequencyTypeId: frequencyType.id
+    }));
   }
   onCalculate = (e) => {
     e.preventDefault();
     if (this.state.target === ''
       || this.state.startingCash === ''
-      || this.state.contributableAmount === '') {
+      || this.state.contributableAmount === ''
+      || this.state.terminateSelection === 0) {
       this.setState(() => ({
         error: 'Please fill out all required fields'
       }));
-    } else if (this.state.startingCash >= this.state.target) {
+    } else if (parseFloat(this.state.startingCash) >= parseFloat(this.state.target)) {
       this.setState(() => ({
-        error: 'You already beaten your goal — looks like you already have it in savings!'
+        error: 'You already beat your goal — looks like you already have it in savings!'
       }))
     }
     else {
@@ -66,6 +106,7 @@ class GoalsForm extends React.Component {
       const calculatedProjectedAmount = parseFloat(startingCash + contributionProjection);
       const calculatedDifferential = parseFloat(this.state.target - calculatedProjectedAmount);
       const willMakeGoal = calculatedProjectedAmount >= this.state.target ? true : false;
+      const timeToHitGoal = parseFloat(this.state.target - this.state.startingCash) / parseFloat(this.state.contributableAmount)
 
       this.setState(() => ({
         calculated: true,
@@ -75,11 +116,11 @@ class GoalsForm extends React.Component {
         difference: calculatedDifferential,
         willMakeGoal: willMakeGoal,
         duration: dateDiff,
+        timeToHitGoal: timeToHitGoal,
         error: ''
       }));
     }
   }
-
   saveGoals = () => {
     this.props.onSaveGoal({
       name: this.state.name,
@@ -104,34 +145,52 @@ class GoalsForm extends React.Component {
           className="form"
           onSubmit={this.onCalculate}>
           <label htmlFor="target">Goal</label>
-          <input
-            className="text-input"
-            placeholder="How much would you like to save?"
-            value={this.state.target}
-            onChange={this.onAmountChange}
-            id="target" />
+          <CreatableSelect
+            isClearable
+            options={this.props.emergencyFund}
+            value={this.selectedOption}
+            placeholder="Pick a goal type"
+            onChange={this.handlePickerChange} />
+          {this.state.name === ''
+            ? ''
+            :
+            <input
+              className="text-input"
+              placeholder="How much would you like to save?"
+              value={this.state.target}
+              onChange={this.onAmountChange}
+              id="target" />}
           <label htmlFor="savings">Current savings</label>
           <input
             className="text-input"
             placeholder="How much have you already saved?"
             value={this.state.startingCash}
-            onChange={this.onSavingsChange}
+            onChange={this.onAmountChange}
             id="savings" />
           <label htmlFor="contribution">Monthly payment</label>
           <input
             className="text-input"
             placeholder="How much can you save each month?"
             value={this.state.contributableAmount}
-            onChange={this.onContributionChange}
+            onChange={this.onAmountChange}
             id="contribution" />
+          <label htmlFor="terminateDate">I want to finish by...</label>
+          <CreatableSelect
+            isClearable
+            options={this.state.terminateOptions}
+            value={this.selectedOption}
+            placeholder="When do you want to finish your goal?"
+            onChange={this.handlePickerChange}
+            id="terminateDate" />
           <div>
             <button
               disabled={!this.state.changed}
               className="button">{calculateWord}alculate Goal</button>
           </div>
         </form>
+        {/* Change this here down to a Goal Summary */}
         {
-          this.state.calculated
+          this.state.calculated && this.state.terminateSelection === 4
             ? <div>
               <h2>Here's a summary of your goal:</h2>
               <p>Minimum required savings: {monthlyRequiredAmount} per month</p>
@@ -139,6 +198,16 @@ class GoalsForm extends React.Component {
               {this.state.willMakeGoal
                 ? <p>You'll make your goal, and beat your goal by {difference}.</p>
                 : <p>You won't make your goal. You're {difference} short. Add {monthlyDifference} per month.</p>}
+            </div>
+            : ''
+        }
+        {
+          this.state.calculated && this.state.terminateSelection === 5
+            ? <div>
+              <h2>Here's a summary of your goal:</h2>
+              <p>Monthly savings: {this.state.contributableAmount} per month</p>
+              <p>End of year total: {projection}</p>
+              <p>Months to reach goal: {this.state.timeToHitGoal}</p>
             </div>
             : ''
         }
@@ -151,7 +220,10 @@ class GoalsForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  goals: state.goals
+  goals: state.goals,
+  emergencyFund: state.emergencyFund,
+  expenses: state.expense,
+  expenseTotal: expensesTotal(state.expense)
 });
 
 export default connect(mapStateToProps)(GoalsForm)

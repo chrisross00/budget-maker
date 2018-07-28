@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Select from 'react-select';
 import ExpenseInput from './ExpenseInput';
 
 export class ExpenseForm extends React.Component {
