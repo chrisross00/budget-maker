@@ -7,7 +7,7 @@ export const addIncome = (
     description = '',
     amount = 0,
     frequencyType = '',
-    frequencyTypeId
+    frequencyTypeId = 0
   } = {}
 ) => ({
   type: 'ADD_INCOME',

@@ -44,7 +44,6 @@ export class IncomeForm extends React.Component {
         error: 'Please fill out all required fields'
       }));
     } else {
-
       this.props.onSubmit({
         incomeType: this.state.incomeType,
         incomeTypeId: this.state.incomeTypeId,
@@ -63,7 +62,7 @@ export class IncomeForm extends React.Component {
           onSubmit={this.onSubmit}>
           {this.state.error && <p className="form__error">{this.state.error}</p>}
           <input
-            type="integer"
+            type="number"
             className="text-input"
             placeholder="How much do you make per paycheck?"
             value={this.state.amount}

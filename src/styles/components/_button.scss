@@ -8,6 +8,10 @@
   line-height: 1;
   padding: $s-size;
   text-decoration: none;
+  &:disabled {
+    background: $off-white;
+    color: $border-grey;
+  }
 }
 
 .button--link {
