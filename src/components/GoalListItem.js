@@ -1,4 +1,6 @@
 import React from 'react';
+import numeral from 'numeral';
+
 const GoalListItem = ({
   name,
   target,
@@ -8,12 +10,34 @@ const GoalListItem = ({
   startingCash }
 ) => (
     <div>
-      <h3>{`Goal Name: ${name}`}</h3>
-      <p>{`Target: ${target}`}</p>
-      <p>{`Amount saved per month: ${contributableAmount}`}</p>
-      <p>{`Minimum monthly savings: ${amount}`}</p>
-      <p>{`Current cash: ${startingCash}`}</p>
-      <p>{`End of year Balance: ${projection}`}</p>
+      <div className="list-header">
+        <h3>{`Goal Name: ${name}`}</h3>
+      </div>
+      <div className="list-item">Target
+        <span className="list-item__data">
+          {numeral((target)).format('$0,0.00')}
+        </span>
+      </div>
+      <div className="list-item">Amount saved per month
+        <span className="list-item__data">
+          {numeral((contributableAmount)).format('$0,0.00')}
+        </span>
+      </div>
+      <div className="list-item">Minimum monthly savings
+        <span className="list-item__data">
+          {numeral((amount)).format('$0,0.00')}
+        </span>
+      </div>
+      <div className="list-item">Current cash
+        <span className="list-item__data">
+          {numeral((startingCash)).format('$0,0.00')}
+        </span>
+      </div>
+      <div className="list-item">End of year Balance
+        <span className="list-item__data">
+          {numeral((projection)).format('$0,0.00')}
+        </span>
+      </div>
     </div>
   );
 

@@ -4,7 +4,9 @@ import ExpenseListItem from './ExpenseListItem';
 
 const ExpenseList = ({ expense }) => (
   <div>
-    <h3>ExpenseList</h3>
+    <div className="list-header">
+      <h3>ExpenseList</h3>
+    </div>
     <div>
       {expense.length === 0
         ? "No expenses added yet"

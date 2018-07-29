@@ -134,7 +134,7 @@ class GoalsForm extends React.Component {
     const timeToHitGoal = Math.round(this.state.timeToHitGoal);
     return (
       <div className="content-container">
-        {this.state.error && <p>{this.state.error}</p>}
+        {this.state.error && <p className="form__error">{this.state.error}</p>}
         <form
           autoComplete="off"
           className="form"

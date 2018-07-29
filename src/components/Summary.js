@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import numeral from 'numeral';
 import ExpenseListItem from './ExpenseListItem';
 import totalSelector from '../selectors/total-selector';
+import biggestItemSelector from '../selectors/biggestItemSelector';
 
 
 class Summary extends React.Component {
@@ -23,11 +24,9 @@ class Summary extends React.Component {
     const goalContribution = this.props.goals.map((goal) => goal.target)
     const totalCash = parseFloat(this.props.incomeTotal) - parseFloat(this.props.expenseTotal) - parseFloat(this.props.goalTotal)
 
-    // cost largestFixedCost = this.state.expenses.map()
-
     this.setState(() => ({
       netWorth: parseFloat(this.props.incomeTotal) + parseFloat(startingCash),
-      totalMonthlyIncome: this.props.incomeTotal,
+      totalMonthlyIncome: parseFloat(this.props.incomeTotal),
       totalGoalContribution: goalContribution,
       totalCash: totalCash
       // largestFixedCost: ,
@@ -51,7 +50,7 @@ class Summary extends React.Component {
               <p>Net Worth: {numeral(this.state.netWorth).format('$0,0.00')}</p>
               <p>Total Cost of Living: {numeral(this.props.expenseTotal).format('$0,0.00')}</p>
               <p>Total Goal Contribution: {numeral(this.props.goalTotal).format('$0,0.00')}</p>
-              <p>Total Cash: {numeral(this.state.totalCash).format('$0,0.00')}</p>
+              <p>Total Cash: {numeral(this.props.totalCash).format('$0,0.00')}</p>
             </div>
             <div>
               <h3>Cash:</h3>
@@ -59,7 +58,7 @@ class Summary extends React.Component {
               <p><span>Cash as a % of Income: </span>
                 {
                   this.props.incomeTotal
-                    ? (parseFloat(this.state.totalCash) / parseFloat(this.props.incomeTotal)) * 100
+                    ? Math.round((parseFloat(this.state.totalCash) / parseFloat(this.props.incomeTotal)) * 100)
                     : ' 0.00'
                 }
                 %
@@ -71,7 +70,9 @@ class Summary extends React.Component {
               <p>Total Fixed Expenses: </p>
               <p>Total Variable Costs: </p>
               <h4>Largest Fixed Cost: </h4>
-              <p></p>
+              <p>Category: {this.props.biggestItems[0].expenseCategory}</p>
+              <p>Amount: {numeral(this.props.biggestItems[0].amount).format('$0,0.00')}</p>
+              <p>Amount as % of Total Cost of Living: {Math.round(parseFloat(this.props.biggestItems[0].amount) / parseFloat(this.props.expenseTotal) * 100)}%</p>
             </div>
             <div>
               <h3>Goals:</h3>
@@ -91,8 +92,9 @@ const mapStateToProps = (state) => {
     emergencyFund: state.emergencyFund,
     expenses: state.expense,
     expenseTotal: totalSelector(state.expense),
-    incomeTotal: totalSelector(state.income),
-    goalTotal: totalSelector(state.goal)
+    incomeTotal: totalSelector(state.income, 2),
+    goalTotal: totalSelector(state.goal),
+    biggestItems: biggestItemSelector(state.expense)
   }
 };
 
