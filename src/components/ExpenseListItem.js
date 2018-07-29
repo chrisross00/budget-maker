@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ExpenseListItem = ({ expenseCategory, normalAmount }) => (
+const ExpenseListItem = ({ expenseCategory, amount }) => (
   <div>
-    {expenseCategory} - {normalAmount}
+    {expenseCategory} - {amount}
 
   </div>
 );

@@ -10,7 +10,10 @@ import 'react-dates/lib/css/_datepicker.css';
 import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
 import expensesFixture from './tests/fixures/expenses';
+import goalsFixture from './tests/fixures/goals';
 import { addExpense } from './actions/expense';
+import { addGoal } from './actions/goal';
+import './playground/largestItem';
 
 const store = configureStore();
 const jsx = (
@@ -27,6 +30,8 @@ const renderApp = () => {
 };
 // RATS - this is just to get an expense object in for testing purposes
 store.dispatch(addExpense(expensesFixture[0]));
+store.dispatch(addGoal(goalsFixture))
+// End RATS
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
@@ -44,6 +49,6 @@ firebase.auth().onAuthStateChanged((user) => {
     history.push('/');
   }
 });
-const unsubscribe = store.subscribe(() => {
-  console.log(store.getState());
-});
+// const unsubscribe = store.subscribe(() => {
+//   console.log(store.getState());
+// });

@@ -4,7 +4,7 @@ export const addGoal = (
   {
     name = '',
     target = '',
-    monthlyRequiredAmount = 0,
+    amount = 0,
     projection = '',
     difference = 0,
     contributableAmount = 0,
@@ -17,7 +17,7 @@ export const addGoal = (
       id: uuid(),
       name,
       target,
-      monthlyRequiredAmount,
+      amount,
       projection,
       difference,
       contributableAmount,

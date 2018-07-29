@@ -8,6 +8,7 @@ export class ExpenseForm extends React.Component {
     return (
       <div className="content-container">
         <form
+          autoComplete="off"
           className="form">
           {this.props.error && <p className="form__error">{this.props.error}</p>}
           {

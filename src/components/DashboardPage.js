@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import IncomeList from './IncomeList';
 import ExpenseList from './ExpenseList';
 import GoalList from './GoalList';
+import Summary from './Summary';
 
 const ExpenseDashboardPage = (props) => (
   <div className="content-container">
@@ -22,6 +23,8 @@ const ExpenseDashboardPage = (props) => (
       <h2>Step 3. Define your goals</h2>
     </Link>
     <GoalList />
+    <hr />
+    <Summary />
   </div>
 );
 

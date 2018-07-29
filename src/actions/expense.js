@@ -5,7 +5,7 @@ export const addExpense = (
     expenseType = '',
     expenseCategory = '',
     expenseCategoryId = 0,
-    normalAmount = 0
+    amount = 0
   } = {}
 ) => ({
   type: 'ADD_EXPENSE',
@@ -14,7 +14,7 @@ export const addExpense = (
     expenseType,
     expenseCategory,
     expenseCategoryId,
-    normalAmount
+    amount
   }
 });
 

@@ -9,7 +9,7 @@ class ExpenseInput extends React.Component {
       expenseType: this.props.expense ? this.props.expense.expenseType : '',
       expenseCategory: this.props.expense ? this.props.expense.expenseCategory : '',
       expenseCategoryId: this.props.expense ? this.props.expense.expenseCategoryId : 0,
-      normalAmount: this.props.expense ? (this.props.expense.normalAmount / 100).toString() : '',
+      amount: this.props.expense ? (this.props.expense.amount / 100).toString() : '',
       changed: false,
       committed: false
     }
@@ -17,7 +17,7 @@ class ExpenseInput extends React.Component {
   onAmountChange = (e) => {
     const amount = e.target.value;
     if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
-      this.setState(() => ({ normalAmount: amount, changed: true }));
+      this.setState(() => ({ amount: amount, changed: true }));
     }
   }
   onSubmit = (e) => {
@@ -27,7 +27,7 @@ class ExpenseInput extends React.Component {
       expenseType: this.props.expenseTypeId,
       expenseCategory: this.props.expenseCategory,
       expenseCategoryId: this.props.expenseCategoryId,
-      normalAmount: this.state.normalAmount,
+      amount: this.state.amount,
     }
     if (this.props.expenses.length !== 0) {
       this.props.expenses.map((expense) => {
@@ -56,8 +56,8 @@ class ExpenseInput extends React.Component {
           placeholder={`How much do you pay for ${this.props.label}?`}
           id={this.props.expenseCategoryId}
           onChange={this.onAmountChange}
-          value={this.state.normalAmount} />
-        {this.state.normalAmount
+          value={this.state.amount} />
+        {this.state.amount
           ? (<button className="button"
             onClick={this.onSubmit}
             disabled={!this.state.changed}>{updateSaveWord} Expense</button>)

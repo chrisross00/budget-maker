@@ -58,6 +58,7 @@ export class IncomeForm extends React.Component {
     return (
       <div className="content-container">
         <form
+          autoComplete="off"
           className="form"
           onSubmit={this.onSubmit}>
           {this.state.error && <p className="form__error">{this.state.error}</p>}
