@@ -5,14 +5,21 @@ import ExpenseListItem from './ExpenseListItem';
 const ExpenseList = ({ expense }) => (
   <div>
     <div className="list-header">
-      <h3>ExpenseList</h3>
+      <div className="show-for-desktop">ExpenseList</div>
+      <div className="show-for-mobile">ExpenseList</div>
+      <div className="show-for-desktop">Amount</div>
     </div>
-    <div>
+    <div className="list-body">
       {expense.length === 0
-        ? "No expenses added yet"
-        : expense.map((expense) => {
+        ? (
+          <div className="list-item list-item-message">
+            <span>No expenses added yet</span>
+          </div>
+        )
+        : (expense.map((expense) => {
           return <ExpenseListItem {...expense} key={expense.id} />
         })
+        )
       }
     </div>
   </div>

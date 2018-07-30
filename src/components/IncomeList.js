@@ -5,10 +5,14 @@ import IncomeListItem from './IncomeListItem';
 const IncomeList = (props) => (
   <div>
     <div className="list-header">
-      <h3>IncomeList</h3>
+      <div className="show-for-desktop">IncomeList</div>
+      <div className="show-for-mobile">IncomeList</div>
+      <div className="show-for-desktop">Amount</div>
     </div>
     <div>{props.income.length === 0
-      ? "No income added yet"
+      ? <div className="list-item list-item-message">
+        <span>No income added yet</span>
+      </div>
       : props.income.map((income) => {
         return <IncomeListItem {...income} key={income.incomeId} />
       })}

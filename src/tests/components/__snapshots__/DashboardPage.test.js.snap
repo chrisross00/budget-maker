@@ -1,7 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render DashboardPage component properly 1`] = `
-<div>
-  ExpenseDashboardPage
+<div
+  className="content-container"
+>
+  <Link
+    replace={false}
+    to="/income"
+  >
+    <h2>
+      Step 1. Add your income
+    </h2>
+  </Link>
+  <Connect(IncomeList) />
+  <Link
+    replace={false}
+    to="/expenses"
+  >
+    <h2>
+      Step 2. Add your monthly expenses
+    </h2>
+  </Link>
+  <Connect(ExpenseList) />
+  <Link
+    replace={false}
+    to="/goals"
+  >
+    <h2>
+      Step 3. Define your goals
+    </h2>
+  </Link>
+  <Connect(GoalList) />
+  <hr />
+  <Connect(Summary) />
 </div>
 `;

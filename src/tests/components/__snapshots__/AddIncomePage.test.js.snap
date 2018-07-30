@@ -2,9 +2,21 @@
 
 exports[`should render AddIncomePage 1`] = `
 <div>
-  <h2>
-    Enter your income
-  </h2>
-  <Connect(IncomeForm) />
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        Enter your income
+      </h1>
+    </div>
+  </div>
+  <Connect(IncomeForm)
+    onSubmit={[Function]}
+  />
 </div>
 `;

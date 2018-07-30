@@ -1,13 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import IncomeList from './IncomeList';
 import ExpenseList from './ExpenseList';
 import GoalList from './GoalList';
-import Summary from './Summary';
+import SummaryList from './SummaryList';
 
-const ExpenseDashboardPage = (props) => (
+export const ExpenseDashboardPage = () => (
   <div className="content-container">
+    <SummaryList />
     <Link
       to="/income">
       <h2>Step 1. Add your income</h2>
@@ -23,14 +23,7 @@ const ExpenseDashboardPage = (props) => (
       <h2>Step 3. Define your goals</h2>
     </Link>
     <GoalList />
-    <hr />
-    <Summary />
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  income: state.income
-});
-
-
-export default connect(mapStateToProps)(ExpenseDashboardPage);
+export default ExpenseDashboardPage;

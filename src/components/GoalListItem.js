@@ -11,7 +11,9 @@ const GoalListItem = ({
 ) => (
     <div>
       <div className="list-header">
-        <h3>{`Goal Name: ${name}`}</h3>
+        <div className="show-for-desktop">{`Goal Name: ${name}`}</div>
+        <div className="show-for-mobile">{`Goal Name: ${name}`}</div>
+        <div className="show-for-desktop">Amount</div>
       </div>
       <div className="list-item">Target
         <span className="list-item__data">

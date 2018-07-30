@@ -5,20 +5,52 @@ exports[`should render IncomeForm 1`] = `
   className="content-container"
 >
   <form
+    autoComplete="off"
     className="form"
+    onSubmit={[Function]}
   >
     <input
       className="text-input"
+      onChange={[Function]}
       placeholder="How much do you make per paycheck?"
+      type="number"
+      value=""
     />
-    <Picker
-      title="Is this your primary or secondary income?"
+    <input
+      className="text-input"
+      onChange={[Function]}
+      placeholder="Enter a description"
+      value=""
     />
+    <div
+      className="picker"
+    >
+      <StateManager
+        defaultInputValue=""
+        defaultMenuIsOpen={false}
+        defaultValue={null}
+        onChange={[Function]}
+        placeholder="How often do you get paid?"
+      />
+    </div>
+    <div
+      className="picker"
+    >
+      <StateManager
+        defaultInputValue=""
+        defaultMenuIsOpen={false}
+        defaultValue={null}
+        onChange={[Function]}
+        placeholder="Is this your primary or secondary income?"
+      />
+    </div>
+    <div>
+      <button
+        className="button"
+      >
+        Save Income
+      </button>
+    </div>
   </form>
-  <button
-    className="button"
-  >
-    Save Income
-  </button>
 </div>
 `;

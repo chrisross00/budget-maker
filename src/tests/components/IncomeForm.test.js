@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import IncomeForm from '../../components/IncomeForm';
+import { IncomeForm } from '../../components/IncomeForm';
 
 
 

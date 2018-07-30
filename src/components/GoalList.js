@@ -4,9 +4,14 @@ import GoalListItem from './GoalListItem';
 
 const GoalList = ({ goals }) => (
   <div className="list-body">
-    <h3>Here's your goals</h3>
     {goals.length === 0
-      ? <p>No goals added yet</p>
+      ? <div>
+        <div className="list-header">Here's your goals</div>
+        <div className="list-item list-item-message">
+          <span>No goals added yet</span>
+        </div>
+
+      </div>
       : goals.map((goal) => {
         return <GoalListItem {...goal} key={goal.id} />
       })}

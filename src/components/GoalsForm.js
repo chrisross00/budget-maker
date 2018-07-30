@@ -122,7 +122,6 @@ class GoalsForm extends React.Component {
       contributableAmount: this.state.contributableAmount,
       startingCash: this.state.startingCash
     });
-    this.props
   }
   render() {
     const calculateWord = this.state.calculated ? "Re-c" : "C"

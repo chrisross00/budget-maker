@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
+import ExpenseListItem from './ExpenseList';
+import NewExpenseForm from './NewExpenseForm';
 
 export class AddExpensePage extends React.Component {
   render() {
@@ -10,14 +13,22 @@ export class AddExpensePage extends React.Component {
             <h1 className="page-header__title">Enter your expenses</h1>
           </div>
         </div>
+        <NewExpenseForm
+          onSubmit={this.onSubmit} />
+        {/* <ExpenseForm
+            onSubmit={this.onSubmit} /> */}
         <div className="content-container">
-          <ExpenseForm
-            onSubmit={this.onSubmit} />
+          <ExpenseListItem {...this.props.expenses} />
         </div>
       </div>
     );
   };
 };
 
+const mapStateToProps = (state) => {
+  return {
+    expense: state.expense
+  }
+}
 
-export default AddExpensePage;
+export default connect(mapStateToProps)(AddExpensePage);

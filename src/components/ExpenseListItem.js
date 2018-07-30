@@ -3,10 +3,10 @@ import numeral from 'numeral';
 
 const ExpenseListItem = ({ expenseCategory, amount }) => (
   <div className="list-item">
-    <h4>
+    <h3 className="list-item__title">
       {expenseCategory}
-    </h4>
-    <span className="list-item__data"> {numeral(amount).format('$0,0.00')} </span>
+    </h3>
+    <h3 className="list-item__data"> {numeral(amount).format('$0,0.00')} </h3>
   </div>
 );
 
