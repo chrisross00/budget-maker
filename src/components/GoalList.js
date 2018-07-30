@@ -6,7 +6,7 @@ const GoalList = ({ goals }) => (
   <div className="list-body">
     {goals.length === 0
       ? <div>
-        <div className="list-header">Here's your goals</div>
+        <div className="list-header">Your Goals</div>
         <div className="list-item list-item-message">
           <span>No goals added yet</span>
         </div>

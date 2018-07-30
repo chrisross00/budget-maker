@@ -9,9 +9,9 @@ export default (income, expenses, goals) => {
   const totalCostOfLiving = parseFloat(getTotal(expenses));
   const totalGoalContribution = parseFloat(getTotal(goals));
   const startingCash = parseFloat(goals.map((goal) => goal.startingCash))
-  const netWorth = totalMonthlyIncome + startingCash;
   const totalCash = parseFloat(totalMonthlyIncome - totalCostOfLiving - totalGoalContribution);
   const cashAsPercent = ((totalCash) / (totalMonthlyIncome)) * 100;
+  const netWorth = totalCash + startingCash; // this should be the sume of totalCash + starting cash
   const biggestExpense = parseFloat(biggestItemSelector(expenses));
   return ({
     totalMonthlyIncome: numeral(totalMonthlyIncome).format('$0,0.00'),

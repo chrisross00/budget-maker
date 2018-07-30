@@ -15,9 +15,11 @@ export class NewExpenseForm extends React.Component {
       expenseCategory: props.expense ? props.expense.expenseCategory : '',
       expenseCategoryId: props.expense ? props.expense.expenseCategoryId : '',
       expenseType: props.expense ? props.expense.expenseType : '',
-      selected: false,
+      selectActive: false,
+      inputActive: false,
       formEntry: false,
-      exists: false
+      exists: false,
+      error: ''
     }
   }
   onAmountChange = (e) => {
@@ -25,49 +27,67 @@ export class NewExpenseForm extends React.Component {
     if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
       this.setState(() => ({
         amount: amount,
-        formEntry: true
+        formEntry: true,
+        inputActive: true
       }));
     }
   }
   onExpenseSelection = (selection) => {
-    console.log(expensesSelector(this.props.expenses, selection.expenseCategoryId)[0]);
-    this.setState({
-      selected: true,
-      expenseCategoryId: selection.expenseCategoryId,
-      expenseCategory: selection.expenseCategory,
-      expenseType: selection.expenseType,
-      value: '',
-      exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0]
-    })
+    if (selection) {
+      this.setState({
+        selectActive: true,
+        expenseCategoryId: selection.expenseCategoryId,
+        expenseCategory: selection.expenseCategory,
+        expenseType: selection.expenseType,
+        value: '',
+        exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0]
+      })
+    } else {
+      this.setState(() => ({
+        selection: '',
+        target: '',
+        name: '',
+        value: '',
+        exists: false,
+        selectActive: false
+      }))
+    }
   }
   onSubmit = (e) => {
     e.preventDefault();
-    expensesSelector(this.props.expenses, this.state.expenseCategoryId)[0]
-      ? this.props.updateExpense(
-        this.state.expenseCategoryId,
-        {
-          expenseType: this.state.expenseType,
-          expenseCategory: this.state.expenseCategory,
-          expenseCategoryId: this.state.expenseCategoryId,
-          amount: this.state.amount
-        })
-      : this.props.addExpense(
-        {
-          expenseType: this.state.expenseType,
-          expenseCategory: this.state.expenseCategory,
-          expenseCategoryId: this.state.expenseCategoryId,
-          amount: this.state.amount
-        })
-    this.setState({
-      amount: '',
-      expenseCategory: '',
-      expenseCategoryId: '',
-      expenseType: '',
-      selected: false,
-      formEntry: false,
-      exists: false,
-      selectedOption: ''
-    })
+    if (this.state.amount === '') {
+      this.setState(() => ({
+        error: 'Please fill out all required fields'
+      }));
+    } else {
+      expensesSelector(this.props.expenses, this.state.expenseCategoryId)[0]
+        ? this.props.updateExpense(
+          this.state.expenseCategoryId,
+          {
+            expenseType: this.state.expenseType,
+            expenseCategory: this.state.expenseCategory,
+            expenseCategoryId: this.state.expenseCategoryId,
+            amount: this.state.amount
+          })
+        : this.props.addExpense(
+          {
+            expenseType: this.state.expenseType,
+            expenseCategory: this.state.expenseCategory,
+            expenseCategoryId: this.state.expenseCategoryId,
+            amount: this.state.amount
+          })
+      this.setState({
+        amount: '',
+        expenseCategory: '',
+        expenseCategoryId: '',
+        expenseType: '',
+        selectActive: false,
+        formEntry: false,
+        exists: false,
+        selectedOption: '',
+        error: ''
+      })
+    }
   }
   render() {
     const word = this.state.exists ? 'Update' : 'Add';
@@ -97,7 +117,7 @@ export class NewExpenseForm extends React.Component {
             </div>
             <div>
               <button
-                disabled={!this.state.selected}
+                disabled={!this.state.selectActive}
                 className="button">{word} Expense</button>
             </div>
           </form>

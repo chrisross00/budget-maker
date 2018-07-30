@@ -3,13 +3,13 @@ export default [
     expenseType: 1,
     expenseCategory: "Rent",
     expenseCategoryId: 1,
-    amount: "900"
+    amount: "1300"
   },
   {
     expenseType: 1,
     expenseCategory: "Food",
     expenseCategoryId: 2,
-    amount: "800"
+    amount: "1400"
   },
   {
     expenseType: 1,

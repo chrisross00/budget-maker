@@ -5,8 +5,8 @@ import ExpenseListItem from './ExpenseListItem';
 const ExpenseList = ({ expense }) => (
   <div>
     <div className="list-header">
-      <div className="show-for-desktop">ExpenseList</div>
-      <div className="show-for-mobile">ExpenseList</div>
+      <div className="show-for-desktop">Monthly Expenses</div>
+      <div className="show-for-mobile">Monthly Expenses</div>
       <div className="show-for-desktop">Amount</div>
     </div>
     <div className="list-body">

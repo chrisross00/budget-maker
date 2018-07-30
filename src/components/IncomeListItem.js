@@ -14,7 +14,7 @@ const IncomeListItem = ({ description, amount, frequencyType, incomeType }) => (
       </span>
     </div>
     <h3 className="list-item__data">
-      {numeral(amount).format('$0,0.00')}
+      {(numeral(parseFloat(amount) * 2).format('$0,0.00'))}
     </h3>
   </div>
 );

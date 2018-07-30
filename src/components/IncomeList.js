@@ -5,8 +5,8 @@ import IncomeListItem from './IncomeListItem';
 const IncomeList = (props) => (
   <div>
     <div className="list-header">
-      <div className="show-for-desktop">IncomeList</div>
-      <div className="show-for-mobile">IncomeList</div>
+      <div className="show-for-desktop">Monthly Income</div>
+      <div className="show-for-mobile">Monthly Income</div>
       <div className="show-for-desktop">Amount</div>
     </div>
     <div>{props.income.length === 0
