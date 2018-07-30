@@ -7,6 +7,7 @@ import expenseReducer from '../reducers/expense';
 import expenseTypeReducer from '../reducers/expenseType';
 import frequencyTypeReducer from '../reducers/frequencyType';
 import goalReducer from '../reducers/goal';
+import goalTypeReducer from '../reducers/goalType';
 import incomeReducer from '../reducers/income';
 import incomeTypeReducer from '../reducers/incomeType';
 
@@ -22,6 +23,7 @@ export default () => {
       expenseType: expenseTypeReducer,
       frequencyType: frequencyTypeReducer,
       goal: goalReducer,
+      goalType: goalTypeReducer,
       incomeType: incomeTypeReducer,
       income: incomeReducer
     }),

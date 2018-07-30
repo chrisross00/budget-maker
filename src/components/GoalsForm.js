@@ -26,19 +26,22 @@ class GoalsForm extends React.Component {
   }
   handlePickerChange = (selection) => {
     if (selection) {
-      if (selection.id === 1 || selection.id === 2) {
-        this.setState(() => ({
-          selection: selection.id,
-          target: expensesTotal(this.props.expenses) * selection.duration,
-          name: selection.label,
-          value: expensesTotal(this.props.expenses) * selection.duration
-        }))
-      } else if (selection.id === 3) {
+      const dur = selection.value[0][0];
+      if (isNaN(dur)) {
         this.setState(() => ({
           selection: selection.id,
           target: '',
           name: selection.label,
-          value: ''
+          value: '',
+          pickerSelection: selection
+        }))
+      } else {
+        this.setState(() => ({
+          selection: selection.id,
+          target: expensesTotal(this.props.expenses) * parseFloat(dur),
+          name: selection.label,
+          value: expensesTotal(this.props.expenses) * parseFloat(dur),
+          pickerSelection: selection
         }))
       }
     } else {
@@ -46,7 +49,8 @@ class GoalsForm extends React.Component {
         selection: '',
         target: '',
         name: '',
-        value: ''
+        value: selection,
+        pickerSelection: selection
       }))
     }
   }
@@ -141,8 +145,8 @@ class GoalsForm extends React.Component {
           <label htmlFor="typePicker">Goal Type</label>
           <CreatableSelect
             isClearable
-            options={this.props.emergencyFund}
-            value={this.selectedOption}
+            options={this.props.goalType}
+            value={this.state.pickerSelection}
             placeholder="Pick a goal type"
             onChange={this.handlePickerChange}
             id="typePicker" />
@@ -206,11 +210,14 @@ class GoalsForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  goals: state.goals,
-  emergencyFund: state.emergencyFund,
-  expenses: state.expense,
-  expenseTotal: expensesTotal(state.expense)
-});
+const mapStateToProps = (state) => {
+  return {
+    goals: state.goals,
+    emergencyFund: state.emergencyFund,
+    goalType: state.goalType,
+    expenses: state.expense,
+    expenseTotal: expensesTotal(state.expense)
+  }
+};
 
 export default connect(mapStateToProps)(GoalsForm)
