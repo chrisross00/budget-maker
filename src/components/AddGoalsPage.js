@@ -5,7 +5,6 @@ import { addGoal } from '../actions/goal';
 
 export class AddGoalsPage extends React.Component {
   onSaveGoal = (goal) => {
-    console.log('ADDGOALSPAGE: goal ', goal);
     this.props.addGoal(goal);
     this.props.history.push('/');
   }

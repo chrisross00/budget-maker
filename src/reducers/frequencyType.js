@@ -1,36 +1,36 @@
 const frequencyTypeDefaultState = [
   {
-    id: 1,
-    type: 'Daily',
-    label: 'Daily'
+    value: 'Daily',
+    label: 'Daily',
+    id: 1
   }, {
-    id: 2,
-    type: 'Weekly',
-    label: 'Weekly'
+    value: 'Weekly',
+    label: 'Weekly',
+    id: 2
   }, {
-    id: 3,
-    type: 'Bi-weekly',
-    label: 'Bi-weekly'
+    value: 'Bi-weekly',
+    label: 'Bi-weekly',
+    id: 3
   }, {
-    id: 4,
-    type: 'Semi-monthly',
-    label: 'Semi-monthly'
+    value: 'Semi-monthly',
+    label: 'Semi-monthly',
+    id: 4
   }, {
-    id: 5,
-    type: 'Monthly',
-    label: 'Monthly'
+    value: 'Monthly',
+    label: 'Monthly',
+    id: 5
   }, {
-    id: 6,
-    type: 'Quarterly',
-    label: 'Quarterly'
+    value: 'Quarterly',
+    label: 'Quarterly',
+    id: 6
   }, {
-    id: 7,
-    type: 'Semi-Annually',
-    label: 'Semi-Annually'
+    value: 'Semi-Annually',
+    label: 'Semi-Annually',
+    id: 7
   }, {
-    id: 8,
-    type: 'Annual',
-    label: 'Annual'
+    value: 'Annual',
+    label: 'Annual',
+    id: 8
   }]
 
 export default (state = frequencyTypeDefaultState, action) => {

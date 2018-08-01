@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import CreatableSelect from 'react-select';
 
 export class IncomeForm extends React.Component {
   constructor(props) {
@@ -31,14 +31,17 @@ export class IncomeForm extends React.Component {
   }
   onFrequencySelection = (frequencyType) => {
     this.setState(() => ({
-      frequencyType: frequencyType.type,
+      frequencyType: frequencyType.value,
+      selectedFrequencyType: frequencyType,
       frequencyTypeId: frequencyType.id
     }));
   }
   onIncomeSelection = (incomeType) => {
     this.setState(() => ({
-      incomeType: incomeType.type,
+      incomeType: incomeType.value,
+      selectedIncomeType: incomeType,
       incomeTypeId: incomeType.id
+
     }));
   }
   onSubmit = (e) => {
@@ -78,16 +81,21 @@ export class IncomeForm extends React.Component {
             value={this.state.description}
             onChange={this.onDescriptionChange} />
           <div className="picker">
-            <Select
+            <CreatableSelect
+              isClearable
+              className="text"
               placeholder="How often do you get paid?"
               options={this.props.frequencyType}
-              value={this.selectedOption}
+              value={this.state.selectedFrequencyType}
               onChange={this.onFrequencySelection} />
           </div>
           <div className="picker">
-            <Select
+            <CreatableSelect
+              className="text"
+              isClearable
               placeholder="Is this your primary or secondary income?"
               options={this.props.incomeType}
+              value={this.state.selectedIncomeType}
               onChange={this.onIncomeSelection} />
           </div>
           <div>

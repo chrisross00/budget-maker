@@ -2,14 +2,14 @@ import uuid from 'uuid';
 
 const incomeTypeReducerDefaultState = [
   {
-    id: 1,
-    type: 'Primary',
-    label: 'Primary'
+    value: 'Primary',
+    label: 'Primary',
+    id: 1
   },
   {
-    id: 2,
-    type: 'Secondary',
-    label: 'Secondary'
+    value: 'Secondary',
+    label: 'Secondary',
+    id: 2
   }
 ];
 

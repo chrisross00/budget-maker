@@ -58,6 +58,6 @@ firebase.auth().onAuthStateChanged((user) => {
     history.push('/');
   }
 });
-// const unsubscribe = store.subscribe(() => {
-//   console.log(store.getState());
-// });
+const unsubscribe = store.subscribe(() => {
+  console.log(store.getState());
+});

@@ -5,7 +5,7 @@ import { addGoal } from '../actions/goal';
 import ExpenseList from './ExpenseList';
 import GoalsForm from './GoalsForm';
 import IncomeForm from './IncomeForm';
-import NewExpenseForm from './NewExpenseForm';
+import ExpenseForm from './ExpenseForm';
 
 // Want to fade in each component - probably want to use React lifecycle
 // unmount, will receive props, etc
@@ -66,7 +66,7 @@ export class Setup extends React.Component {
                   <hr />
                 </div>
               </div>
-              <NewExpenseForm
+              <ExpenseForm
                 onComplete={this.onComplete} />
               <div className="content-container">
                 <ExpenseList {...this.props.expenses} />
