@@ -3,3 +3,11 @@
   padding: 0 $l-size;
   max-width: 80rem;
 }
+
+.content-container--card {
+  border: 1px solid $border-grey;
+  margin: $xl-size auto;
+  padding: 0 $l-size;
+  padding-bottom: $xl-size;
+  max-width: 80rem;
+}

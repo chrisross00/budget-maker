@@ -9,6 +9,7 @@ import PublicRoute from '../routers/PublicRoute';
 import AddIncomePage from '../components/AddIncomePage';
 import AddExpensePage from '../components/AddExpensePage';
 import AddGoalsPage from '../components/AddGoalsPage';
+import Setup from '../components/Setup';
 
 export const history = createHistory();
 
@@ -17,6 +18,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute path="/" component={LoginPage} exact={true} />
+        <PrivateRoute path="/setup" component={Setup} />
         <PrivateRoute path="/dashboard" component={DashboardPage} />
         <PrivateRoute path="/income" component={AddIncomePage} />
         <PrivateRoute path="/expenses" component={AddExpensePage} />

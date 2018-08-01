@@ -170,10 +170,13 @@ class GoalsForm extends React.Component {
             value={this.state.contributableAmount}
             onChange={this.onAmountChange}
             id="contribution" />
-          <div>
+          <div className="button__container">
             <button
               disabled={!this.state.changed}
               className="button">{calculateWord}alculate Goal</button>
+            <button className="button"
+              disabled={!this.state.calculated}
+              onClick={this.saveGoals}>Save Goal</button>
           </div>
           {/* Change this here down to a Goal Summary */}
           {
@@ -200,11 +203,6 @@ class GoalsForm extends React.Component {
               : ''
           }
         </form>
-        <div>
-          <button className="button"
-            disabled={!this.state.calculated}
-            onClick={this.saveGoals}>Save Goal</button>
-        </div>
       </div>
     )
   }

@@ -12,6 +12,7 @@ export class IncomeForm extends React.Component {
       amount: props.income ? (props.expense.amount / 100).toString() : '',
       frequencyType: props.income ? props.income.frequencyType : 'Bi-weekly',
       frequencyTypeId: props.income ? props.income.frequencyTypeId : 3,
+      selectActive: false,
       error: ''
     };
   }
@@ -23,7 +24,10 @@ export class IncomeForm extends React.Component {
   }
   onDescriptionChange = (e) => {
     const description = e.target.value;
-    this.setState(() => ({ description }));
+    this.setState(() => ({
+      description,
+      selectActive: true
+    }));
   }
   onFrequencySelection = (frequencyType) => {
     this.setState(() => ({
@@ -87,8 +91,9 @@ export class IncomeForm extends React.Component {
               onChange={this.onIncomeSelection} />
           </div>
           <div>
-            <button className="button">Save Income</button>
-
+            <button
+              disabled={!this.state.selectActive}
+              className="button">Save Income</button>
           </div>
         </form>
       </div>

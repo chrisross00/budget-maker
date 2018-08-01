@@ -5,6 +5,9 @@ import ExpenseListItem from './ExpenseList';
 import NewExpenseForm from './NewExpenseForm';
 
 export class AddExpensePage extends React.Component {
+  onComplete = () => {
+    this.props.history.push('/');
+  }
   render() {
     return (
       <div>
@@ -14,7 +17,7 @@ export class AddExpensePage extends React.Component {
           </div>
         </div>
         <NewExpenseForm
-          onSubmit={this.onSubmit} />
+          onComplete={this.onComplete} />
         {/* <ExpenseForm
             onSubmit={this.onSubmit} /> */}
         <div className="content-container">

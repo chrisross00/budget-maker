@@ -115,10 +115,15 @@ export class NewExpenseForm extends React.Component {
                 onChange={this.onExpenseSelection}
                 placeholder="Select the type of expense" />
             </div>
-            <div>
+            <div className="button__container">
               <button
                 disabled={!this.state.selectActive}
                 className="button">{word} Expense</button>
+
+              <button
+                disabled={!this.props.expenses.length >= 1}
+                onClick={this.props.onComplete}
+                className="button">Save Expenses</button>
             </div>
           </form>
         </div>

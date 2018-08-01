@@ -30,16 +30,16 @@ const renderApp = () => {
   }
 };
 // RATS - this is just to get an expense object in for testing purposes
-store.dispatch(addExpense(expensesFixture[0]));
-store.dispatch(addExpense(expensesFixture[1]));
-store.dispatch(addExpense(expensesFixture[2]));
-store.dispatch(addExpense(expensesFixture[3]));
-store.dispatch(addExpense(expensesFixture[4]));
-store.dispatch(addExpense(expensesFixture[5]));
-store.dispatch(addExpense(expensesFixture[6]));
-store.dispatch(addExpense(expensesFixture[7]));
-// store.dispatch(addGoal(goalsFixture))
-store.dispatch(addIncome(incomefixture))
+// store.dispatch(addExpense(expensesFixture[0]));
+// store.dispatch(addExpense(expensesFixture[1]));
+// store.dispatch(addExpense(expensesFixture[2]));
+// store.dispatch(addExpense(expensesFixture[3]));
+// store.dispatch(addExpense(expensesFixture[4]));
+// store.dispatch(addExpense(expensesFixture[5]));
+// store.dispatch(addExpense(expensesFixture[6]));
+// store.dispatch(addExpense(expensesFixture[7]));
+// // store.dispatch(addGoal(goalsFixture))
+// store.dispatch(addIncome(incomefixture))
 // End RATS
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));

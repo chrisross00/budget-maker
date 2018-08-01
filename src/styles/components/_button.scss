@@ -21,3 +21,8 @@
 .button--secondary {
   background: #888888;
 }
+
+.button__container {
+  display: flex;
+  justify-content: space-between;
+}

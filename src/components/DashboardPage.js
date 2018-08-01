@@ -11,6 +11,7 @@ export const ExpenseDashboardPage = () => (
     <Link
       to="/income">
       <h2>Step 1. Add your income</h2>
+      <hr />
     </Link>
     <IncomeList />
     <Link
