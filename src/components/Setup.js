@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addIncome } from '../actions/income';
 import { addGoal } from '../actions/goal';
+import { updateProgress } from '../actions/progress';
 import ExpenseList from './ExpenseList';
 import GoalsForm from './GoalsForm';
 import IncomeForm from './IncomeForm';
 import ExpenseForm from './ExpenseForm';
+import Progress from './Progress';
 
 // Want to fade in each component - probably want to use React lifecycle
 // unmount, will receive props, etc
@@ -19,32 +21,55 @@ export class Setup extends React.Component {
       showExpense: false,
       showGoals: false,
       step: 1,
+      animate: false
     }
   }
-  onComplete = () => {
+  onSaveExpenses = () => {
+    this.props.updateProgress(2, {
+      complete: true,
+      inProgress: false
+    })
     this.setState({
       showExpense: false,
       showGoals: true
     })
+    this.props.updateProgress(3, {
+      complete: false,
+      inProgress: true
+    })
   }
   onSubmitIncome = (income) => {
     this.props.addIncome(income);
+    this.props.updateProgress(1, {
+      complete: true,
+      inProgress: false
+    })
     this.setState({
       showIncome: false,
       showExpense: true
     })
+    this.props.updateProgress(2, {
+      complete: false,
+      inProgress: true
+    })
   }
   onSaveGoal = (goal) => {
     this.props.addGoal(goal);
+    this.props.updateProgress(3, {
+      complete: true,
+      inProgress: false
+    })
     this.props.history.push('/');
   }
   render() {
+    console.log(this.props.isAuthenticated);
     return (
       <div>
+        <Progress />
         {
           this.state.showIncome
             ?
-            <div className="content-container--card shadow">
+            <div className="content-container--card shadow fadein">
               <div className="content-container">
                 <div className="form-header">
                   <h1 className="form-header__title">Enter your income</h1>
@@ -59,7 +84,7 @@ export class Setup extends React.Component {
         {
           this.state.showExpense
             ?
-            <div className="content-container--card shadow">
+            <div className="content-container--card shadow fadein">
               <div className="content-container">
                 <div className="form-header">
                   <h1 className="form-header__title">Enter your expenses</h1>
@@ -67,8 +92,9 @@ export class Setup extends React.Component {
                 </div>
               </div>
               <ExpenseForm
-                onComplete={this.onComplete} />
+                onComplete={this.onSaveExpenses} />
               <div className="content-container">
+                <hr />
                 <ExpenseList {...this.props.expenses} />
               </div>
             </div>
@@ -78,7 +104,7 @@ export class Setup extends React.Component {
           this.state.showGoals
             ?
             <div>
-              <div className="content-container--card shadow">
+              <div className="content-container--card shadow fadein">
                 <div className="content-container">
                   <div className="form-header">
                     <h1 className="form-header__title">Enter your goals</h1>
@@ -96,9 +122,15 @@ export class Setup extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  isDoneWithSetup: !!state.progress[state.progress.length - 1].complete,
+  isAuthenticated: !!state.auth.uid
+})
+
 const mapDispatchToProps = (dispatch) => ({
   addIncome: (income) => dispatch(addIncome(income)),
-  addGoal: (goal) => { dispatch(addGoal(goal)) }
+  addGoal: (goal) => { dispatch(addGoal(goal)) },
+  updateProgress: (progressId, updates) => { dispatch(updateProgress(progressId, updates)) }
 });
 
-export default connect(undefined, mapDispatchToProps)(Setup)
+export default connect(mapStateToProps, mapDispatchToProps)(Setup)

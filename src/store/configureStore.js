@@ -10,8 +10,9 @@ import goalReducer from '../reducers/goal';
 import goalTypeReducer from '../reducers/goalType';
 import incomeReducer from '../reducers/income';
 import incomeTypeReducer from '../reducers/incomeType';
+import progressReducer from '../reducers/progress';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
   const store = createStore(
@@ -25,7 +26,8 @@ export default () => {
       goal: goalReducer,
       goalType: goalTypeReducer,
       incomeType: incomeTypeReducer,
-      income: incomeReducer
+      income: incomeReducer,
+      progress: progressReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );

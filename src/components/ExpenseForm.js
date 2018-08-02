@@ -103,13 +103,6 @@ export class ExpenseForm extends React.Component {
             onSubmit={this.onSubmit}>
             {this.state.error && <p className="form__error">{this.state.error}</p>}
 
-            <input
-              type="number"
-              className="text-input"
-              value={this.state.amount}
-              onChange={this.onAmountChange}
-              placeholder="Enter an amount" />
-
             <div className="picker">
               <CreatableSelect
                 isClearable
@@ -119,6 +112,13 @@ export class ExpenseForm extends React.Component {
                 onChange={this.onExpenseSelection}
                 placeholder="Select the type of expense" />
             </div>
+            <input
+              type="number"
+              className="text-input"
+              value={this.state.amount}
+              onChange={this.onAmountChange}
+              placeholder="Enter an amount" />
+
             <div className="button__container">
               <button
                 disabled={!this.state.selectActive}

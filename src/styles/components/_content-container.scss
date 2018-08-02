@@ -1,15 +1,32 @@
 .content-container {
   margin: 0 auto;
+  max-width: 60rem;
   padding: 0 $l-size;
-  max-width: 80rem;
 }
 
 .content-container--card {
   border: 1px solid $border-grey;
+  max-width: 60rem;
   margin: $xl-size auto;
   padding: 0 $l-size;
   padding-bottom: $xl-size;
-  max-width: 80rem;
+}
+
+.content-container--card__title {
+  @extend .content-container--card;
+  border-bottom: 1px solid $border-grey;
+  border-top: 1px solid $border-grey;
+  border-right: none;
+  border-left: none;
+  max-width: none;
+  padding-bottom: 0;
+}
+
+.content-container--subcontainer {
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+  max-width: 50rem;
 }
 
 // .content-container--card.show {

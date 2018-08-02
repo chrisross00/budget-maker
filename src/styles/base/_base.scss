@@ -24,3 +24,11 @@ button:disabled {
 .is-active {
   font-weight: bold;
 }
+
+.is-active-false {
+  color: $border-grey;
+}
+
+hr {
+  margin-top: $l-size;
+}
