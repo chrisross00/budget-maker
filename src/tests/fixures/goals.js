@@ -5,7 +5,7 @@ export default {
   amount: 400,
   name: "3 month emergency fund",
   projection: 2000,
-  startingCash: "1000",
+  savings: "1000",
   target: 3000
 }
 

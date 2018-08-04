@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ExpenseListItem from './ExpenseList';
 import ExpenseForm from './ExpenseForm';
 
 export class AddExpensePage extends React.Component {
@@ -17,9 +16,6 @@ export class AddExpensePage extends React.Component {
         </div>
         <ExpenseForm
           onComplete={this.onComplete} />
-        <div className="content-container">
-          <ExpenseListItem {...this.props.expenses} />
-        </div>
       </div>
     );
   };

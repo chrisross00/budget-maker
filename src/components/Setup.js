@@ -4,10 +4,12 @@ import { addIncome } from '../actions/income';
 import { addGoal } from '../actions/goal';
 import { updateProgress } from '../actions/progress';
 import ExpenseList from './ExpenseList';
+import formatInUsd from '../helpers/formatInUsd'
 import GoalsForm from './GoalsForm';
 import IncomeForm from './IncomeForm';
 import ExpenseForm from './ExpenseForm';
 import Progress from './Progress';
+import summarySelector from '../selectors/summarySelector';
 
 // Want to fade in each component - probably want to use React lifecycle
 // unmount, will receive props, etc
@@ -18,10 +20,10 @@ export class Setup extends React.Component {
     super(props);
     this.state = {
       showIncome: true,
-      showExpense: false,
-      showGoals: false,
+      showExpense: true,
+      showGoals: true,
       step: 1,
-      animate: false
+      animate: false,
     }
   }
   onSaveExpenses = () => {
@@ -61,59 +63,46 @@ export class Setup extends React.Component {
     })
     this.props.history.push('/');
   }
+  onSkipGoals = () => {
+    this.props.history.push('/');
+  }
   render() {
-    console.log(this.props.isAuthenticated);
     return (
       <div>
-        <Progress />
-        {
-          this.state.showIncome
-            ?
-            <div className="content-container--card shadow fadein">
-              <div className="content-container">
-                <div className="form-header">
-                  <h1 className="form-header__title">Enter your income</h1>
-                  <hr />
-                </div>
-              </div>
-              <IncomeForm
-                onSubmit={this.onSubmitIncome} />
+        <div className="fadein">
+          <Progress />
+          <div className="content-container--card__title shadow--light" >
+            <div className="content-container--subcontainer">
+              <h4>Monthly Income
+                    <br />
+                {formatInUsd(this.props.summary.totalMonthlyIncome)}
+              </h4>
+              <h4>-</h4>
+              <h4>Monthly Expenses
+                    <br />
+                {formatInUsd(this.props.summary.totalCostOfLiving)}
+              </h4>
+              <h4>=</h4>
+              <h4>Monthly Cash
+                    <br />
+                {formatInUsd(this.props.summary.totalCash)}
+              </h4>
             </div>
+          </div>
+        </div>
+        {
+          this.state.showIncome ? <IncomeForm onSubmit={this.onSubmitIncome} />
             : ''
         }
         {
-          this.state.showExpense
-            ?
-            <div className="content-container--card shadow fadein">
-              <div className="content-container">
-                <div className="form-header">
-                  <h1 className="form-header__title">Enter your expenses</h1>
-                  <hr />
-                </div>
-              </div>
-              <ExpenseForm
-                onComplete={this.onSaveExpenses} />
-              <div className="content-container">
-                <hr />
-                <ExpenseList {...this.props.expenses} />
-              </div>
-            </div>
+          this.state.showExpense ? <ExpenseForm onComplete={this.onSaveExpenses} />
             : ''
         }
         {
-          this.state.showGoals
-            ?
-            <div>
-              <div className="content-container--card shadow fadein">
-                <div className="content-container">
-                  <div className="form-header">
-                    <h1 className="form-header__title">Enter your goals</h1>
-                    <hr />
-                  </div>
-                </div>
-                <GoalsForm
-                  onSaveGoal={this.onSaveGoal} />
-              </div>
+          this.state.showGoals ?
+            <div className="fadein">
+              <GoalsForm onSaveGoal={this.onSaveGoal}
+                onSkipGoals={this.onSkipGoals} />
             </div>
             : ''
         }
@@ -123,8 +112,10 @@ export class Setup extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isDoneWithSetup: !!state.progress[state.progress.length - 1].complete,
-  isAuthenticated: !!state.auth.uid
+  isDoneWithSetup: state.progress[state.progress.length - 1].complete,
+  isAuthenticated: !!state.auth.uid,
+  summary: summarySelector(state.income, state.expense, state.goal)
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

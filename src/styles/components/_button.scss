@@ -8,6 +8,7 @@
   line-height: 1;
   padding: $s-size;
   text-decoration: none;
+  min-width: 108px;
   &:disabled {
     background: $off-white;
     color: $border-grey;
@@ -24,5 +25,6 @@
 
 .button__container {
   display: flex;
+  float: right;
   justify-content: space-between;
 }

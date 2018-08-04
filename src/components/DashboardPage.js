@@ -10,7 +10,7 @@ export const ExpenseDashboardPage = () => (
     <SummaryList />
     <Link
       to="/income">
-      <h2>Step 1. Add your income</h2>
+      <h2 >Step 1. Add your income</h2>
     </Link>
     <IncomeList />
     <Link

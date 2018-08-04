@@ -8,7 +8,7 @@ export const addGoal = (
     projection = '',
     difference = 0,
     contributableAmount = 0,
-    startingCash = 0
+    savings = 0
   } = {}
 ) => {
   return {
@@ -21,7 +21,7 @@ export const addGoal = (
       projection,
       difference,
       contributableAmount,
-      startingCash
+      savings
     }
   };
 };

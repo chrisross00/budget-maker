@@ -15,11 +15,11 @@ export class Progress extends React.Component {
         <div className="content-container--subcontainer">
           {
             this.props.progress.map((step) => {
-              return <h2
+              return <h3
                 key={step.progressId}
                 className={step.inProgress
                   ? 'is-active'
-                  : 'is-active-false'}>{step.progressId}</h2>
+                  : 'is-active-false'}>{step.progressId}. {step.subtitle}</h3>
             })
           }
         </div>

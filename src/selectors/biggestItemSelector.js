@@ -9,7 +9,11 @@ export default (expenses) => {
   let biggestExpenses = []
   expenses.filter((expense) =>
     parseFloat(expense.amount) === maxValue
-      ? biggestExpenses.push({ amount: expense.amount, expenseCategory: expense.expenseCategory })
+      ? biggestExpenses.push({
+        amount: expense.amount,
+        expenseCategory: expense.expenseCategory,
+        expenseCategoryId: expense.expenseCategoryId
+      })
       : false);
   return biggestExpenses;
 }

@@ -2,15 +2,18 @@ export const defaultprogress = [
   {
     progressId: 1,
     complete: false,
-    inProgress: true
+    inProgress: true,
+    subtitle: 'Income'
   }, {
     progressId: 2,
     complete: false,
-    inProgress: false
+    inProgress: false,
+    subtitle: 'Expenses'
   }, {
     progressId: 3,
     complete: false,
-    inProgress: false
+    inProgress: false,
+    subtitle: 'Goals'
   }
 ]
 

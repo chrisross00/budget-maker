@@ -16,10 +16,8 @@ export class AddGoalsPage extends React.Component {
             <h1 className="page-header__title">Add your goals</h1>
           </div>
         </div>
-        <div className="content-container">
-          <GoalsForm
-            onSaveGoal={this.onSaveGoal} />
-        </div>
+        <GoalsForm
+          onSaveGoal={this.onSaveGoal} />
       </div>
     )
   }
