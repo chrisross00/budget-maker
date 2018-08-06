@@ -10,6 +10,7 @@ import AddIncomePage from '../components/AddIncomePage';
 import AddExpensePage from '../components/AddExpensePage';
 import AddGoalsPage from '../components/AddGoalsPage';
 import Setup from '../components/Setup';
+import ScenarioBuilder from '../components/ScenarioBuilder';
 
 export const history = createHistory();
 
@@ -23,6 +24,7 @@ const AppRouter = () => (
         <PrivateRoute path="/income" component={AddIncomePage} />
         <PrivateRoute path="/expenses" component={AddExpensePage} />
         <PrivateRoute path="/goals" component={AddGoalsPage} />
+        <PrivateRoute path="/whatif" component={ScenarioBuilder} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

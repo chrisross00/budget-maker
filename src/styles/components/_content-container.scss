@@ -30,6 +30,18 @@
   max-width: 55rem;
 }
 
+.content-container--scenario {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 $l-size;
+  max-width: 120rem;
+  margin: 0 auto;
+  @media(min-width: $scenario-breakpoint) {
+    flex-direction: row;
+  }
+}
+
 // .content-container--card.show {
 //   transition: 10s ease-in;
 //   opacity: 1;

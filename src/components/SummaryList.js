@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import biggestItemSelector from '../selectors/biggestItemSelector';
 import formatInUsd from '../helpers/formatInUsd'
 import summarySelector from '../selectors/summarySelector';
@@ -11,8 +12,12 @@ class Summary extends React.Component {
   }
   render() {
     return (
-      <div className="content-contained">
-
+      <div className="content-container">
+        <Link
+          className="form-header__title"
+          to="/whatif">
+          <h1>What If Scenarios</h1>
+        </Link>
         <h2>Details</h2>
         {this.props.goals.length === 0
           ? ''
