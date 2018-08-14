@@ -19,6 +19,7 @@ export class ExpenseForm extends React.Component {
       selectActive: false,
       exists: false,
       selectedOption: false,
+      isOpened: props.isOpened ? props.isOpened : false,
       error: ''
     }
   }
@@ -39,15 +40,29 @@ export class ExpenseForm extends React.Component {
   }
   onExpenseSelection = (selection) => {
     if (selection) {
-      this.setState({
-        selectActive: true,
-        expenseCategoryId: selection.expenseCategoryId,
-        expenseCategory: selection.expenseCategory,
-        expenseType: selection.expenseType,
-        value: '',
-        exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
-        selectedOption: selection
-      })
+      if (expensesSelector(this.props.expenses, selection.expenseCategoryId)[0]) {
+        this.setState({
+          selectActive: true,
+          expenseCategoryId: selection.expenseCategoryId,
+          expenseCategory: selection.expenseCategory,
+          expenseType: selection.expenseType,
+          value: '',
+          exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
+          selectedOption: selection
+        })
+      }
+      else {
+        console.log("DNE");
+        this.setState({
+          selectActive: true,
+          expenseCategoryId: this.props.expenses.length + 1,
+          expenseCategory: selection.label,
+          expenseType: selection.expenseType,
+          value: '',
+          exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
+          selectedOption: selection
+        })
+      }
     } else {
       this.setState(() => ({
         selection: '',
@@ -134,7 +149,7 @@ export class ExpenseForm extends React.Component {
                   options={this.props.expenseCategory}
                   value={this.state.selectedOption}
                   onChange={this.onExpenseSelection}
-                  placeholder="Pick an expense" />
+                  placeholder="Pick one or type to add" />
               </div>
               <CurrencyFormat
                 className="text-input"
@@ -158,7 +173,8 @@ export class ExpenseForm extends React.Component {
           </div>
           <div className="content-container">
             <hr />
-            <ExpenseList {...this.props.expenses} />
+            <ExpenseList {...this.props.expenses}
+              isOpened={this.state.isOpened} />
           </div>
         </div>
 

@@ -174,7 +174,7 @@ class GoalsForm extends React.Component {
               className="text-input"
               thousandSeparator={true}
               prefix={'$'}
-              placeholder="How much would you like to save?"
+              placeholder="How much will you save?"
               value={this.state.target}
               onValueChange={this.onTargetChange} />
 
@@ -185,7 +185,7 @@ class GoalsForm extends React.Component {
               className="text-input"
               thousandSeparator={true}
               prefix={'$'}
-              placeholder="How much have you already saved?"
+              placeholder="Have you saved up already?"
               value={this.state.startingCash}
               onValueChange={this.onStartingCashChange} />
             <label htmlFor="contribution">Monthly payment</label>
@@ -195,7 +195,7 @@ class GoalsForm extends React.Component {
               className="text-input"
               thousandSeparator={true}
               prefix={'$'}
-              placeholder="How much can you save each month?"
+              placeholder="How much can you save monthly?"
               value={this.state.contributableAmount}
               onValueChange={this.onContributableAmountChange} />
             <div className="button__container">

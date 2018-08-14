@@ -15,7 +15,8 @@ export class AddExpensePage extends React.Component {
           </div>
         </div>
         <ExpenseForm
-          onComplete={this.onComplete} />
+          onComplete={this.onComplete}
+          isOpened={true} />
       </div>
     );
   };

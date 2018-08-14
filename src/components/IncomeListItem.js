@@ -1,6 +1,5 @@
 import React from 'react';
 import numeral from 'numeral';
-
 const IncomeListItem = ({ description, amount, frequencyType, incomeType }) => (
   <div className="list-item">
     <div>
@@ -9,7 +8,7 @@ const IncomeListItem = ({ description, amount, frequencyType, incomeType }) => (
       </h3>
       <span className="list-item__subtitle">
         <span>
-          {frequencyType}<br />{incomeType} income
+          {frequencyType}
         </span>
       </span>
     </div>

@@ -1,11 +1,30 @@
 .list-header {
-  background: $off-white;
   border: 1px solid darken($off-white, 7%);
-  color: $grey;
+  color: $dark-grey;
   display: flex;
   justify-content: space-between;
   padding: $s-size $m-size;
   margin-top: 3.2rem;
+}
+
+.list-header__clickable {
+  @extend .list-header;
+  cursor: pointer;
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+.list-header-title {
+  font-weight: 300;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
 }
 
 .list-body {
@@ -20,18 +39,13 @@
   border-top: none;
   color: $dark-grey;
   display: flex;
-  flex-direction: column;
-  padding: $s-size;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: $m-size;
   text-decoration: none;
   transition: background .3s ease;
   &:hover {
     background: $off-white;
-  }
-  @media(min-width: $desktop-breakpoint) {
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: $m-size;
   }
 }
 
@@ -45,9 +59,13 @@
   }
 }
 
-.list-item__title {
-  margin: 0;
+.list-item__solotitle {
   word-break: break-all;
+}
+
+.list-item__title {
+  @extend .list-item__solotitle;
+  margin: 0;
 }
 
 .list-item__subtitle {
@@ -56,9 +74,10 @@
 }
 
 .list-item__data {
-  margin: $s-size 0 0 0;
-  @media(min-width: $desktop-breakpoint) {
-    margin: 0;
-    padding-left: $s-size;
-  }
+  margin: $m-size 0 0 0;
+  flex-direction: column;
+}
+
+.clicked {
+  background: $off-white;
 }

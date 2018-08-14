@@ -12,9 +12,9 @@ const GoalListItem = ({
 ) => (
     <div>
       <div className="list-header">
-        <div className="show-for-desktop">{`Goal Name: ${name}`}</div>
-        <div className="show-for-mobile">{`Goal Name: ${name}`}</div>
-        <div className="show-for-desktop">Amount</div>
+        <div className="show-for-desktop">{`Goal: ${name}`}</div>
+        <div className="show-for-mobile">{`Goal: ${name}`}</div>
+        <div className="show-for-desktop">{formatInUsd(contributableAmount)}</div>
       </div>
       <div className="list-item">Target
         <span className="list-item__data">

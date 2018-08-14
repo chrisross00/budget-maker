@@ -27,19 +27,30 @@ export class IncomeForm extends React.Component {
     }));
   }
   onFrequencySelection = (frequencyType) => {
-    this.setState(() => ({
-      frequencyType: frequencyType.value,
-      selectedFrequencyType: frequencyType,
-      frequencyTypeId: frequencyType.id
-    }));
+    if (frequencyType) {
+      this.setState(() => ({
+        frequencyType: frequencyType.value,
+        selectedFrequencyType: frequencyType,
+        frequencyTypeId: frequencyType.id
+      }));
+    } else {
+      this.setState(() => ({
+        selectedFrequencyType: ''
+      }));
+    }
   }
   onIncomeSelection = (incomeType) => {
-    this.setState(() => ({
-      incomeType: incomeType.value,
-      selectedIncomeType: incomeType,
-      incomeTypeId: incomeType.id
-
-    }));
+    if (incomeType) {
+      this.setState(() => ({
+        incomeType: incomeType.value,
+        selectedIncomeType: incomeType,
+        incomeTypeId: incomeType.id
+      }));
+    } else {
+      this.setState(() => ({
+        selectedIncomeType: ''
+      }))
+    }
   }
   onSubmit = (e) => {
     e.preventDefault();
@@ -82,7 +93,7 @@ export class IncomeForm extends React.Component {
               className="text-input"
               thousandSeparator={true}
               prefix={'$'}
-              placeholder="What do you make per pay period?"
+              placeholder="What do you earn per check?"
               value={this.state.amount}
               onValueChange={this.onValueChange} />
             <input
