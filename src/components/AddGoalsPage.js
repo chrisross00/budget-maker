@@ -2,6 +2,7 @@ import React from 'react';
 import GoalsForm from './GoalsForm';
 import { connect } from 'react-redux';
 import { addGoal } from '../actions/goal';
+import { FormHeader } from './FormHeader';
 
 export class AddGoalsPage extends React.Component {
   onSaveGoal = (goal) => {
@@ -16,8 +17,12 @@ export class AddGoalsPage extends React.Component {
             <h1 className="page-header__title">Add your goals</h1>
           </div>
         </div>
-        <GoalsForm
-          onSaveGoal={this.onSaveGoal} />
+        <div className="content-container shadow">
+          <FormHeader
+            formType={'goals'} />
+          <GoalsForm
+            onSaveGoal={this.onSaveGoal} />
+        </div>
       </div>
     )
   }

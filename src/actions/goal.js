@@ -2,7 +2,7 @@ import uuid from 'uuid';
 
 export const addGoal = (
   {
-    name = '',
+    description = '',
     target = '',
     amount = 0,
     projection = '',
@@ -15,7 +15,7 @@ export const addGoal = (
     type: 'ADD_GOAL',
     goal: {
       id: uuid(),
-      name,
+      description,
       target,
       amount,
       projection,

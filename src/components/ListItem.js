@@ -1,6 +1,7 @@
 import React from 'react';
 import numeral from 'numeral';
-const IncomeListItem = ({ description, amount, frequencyType, incomeType }) => (
+
+const ListItem = ({ description, amount, frequencyType }) => (
   <div className="list-item">
     <div>
       <h3 className="list-item__title">
@@ -13,9 +14,9 @@ const IncomeListItem = ({ description, amount, frequencyType, incomeType }) => (
       </span>
     </div>
     <h3 className="list-item__data">
-      {(numeral(parseFloat(amount) * 2).format('$0,0.00'))}
+      {(numeral(parseFloat(amount)).format('$0,0.00'))}
     </h3>
   </div>
 );
 
-export default IncomeListItem;
+export default ListItem;

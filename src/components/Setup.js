@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addIncome } from '../actions/income';
 import { addGoal } from '../actions/goal';
 import { updateProgress } from '../actions/progress';
-import ExpenseList from './ExpenseList';
+import List from './List';
 import formatInUsd from '../helpers/formatInUsd'
 import GoalsForm from './GoalsForm';
 import IncomeForm from './IncomeForm';
@@ -91,19 +91,19 @@ export class Setup extends React.Component {
           </div>
         </div>
         {
-          this.state.showIncome ? <IncomeForm onSubmit={this.onSubmitIncome} />
+          this.state.showIncome
+            ? <IncomeForm onSubmit={this.onSubmitIncome} />
             : ''
         }
         {
-          this.state.showExpense ? <ExpenseForm onComplete={this.onSaveExpenses} />
+          this.state.showExpense
+            ? <ExpenseForm onComplete={this.onSaveExpenses} isOpened={true} />
             : ''
         }
         {
           this.state.showGoals ?
-            <div className="fadein">
-              <GoalsForm onSaveGoal={this.onSaveGoal}
-                onSkipGoals={this.onSkipGoals} />
-            </div>
+            <GoalsForm onSaveGoal={this.onSaveGoal}
+              onSkipGoals={this.onSkipGoals} />
             : ''
         }
       </div>

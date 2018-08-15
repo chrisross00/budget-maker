@@ -24,57 +24,57 @@ export class ScenarioForm extends React.Component {
     }
   }
   onScenarioSelection = (selection) => {
-    switch (selection.value) {
-      case 'Income':
-        return this.setState({
-          selectedScenario: selection,
-          modificationOptions: [{ value: 'income', 'label': 'income' }]
-        });
-      case 'Expenses':
-        return this.setState({
-          selectedScenario: selection,
-          modificationOptions: [{ value: 'expenses', 'label': 'expenses' }]
-        })
-      case 'Goals':
-        return this.setState({
-          selectedScenario: selection,
-          modificationOptions: [{ value: 'goals', 'label': 'goals' }]
-        })
+    if (selection) {
+      this.setState({
+        selectedScenario: selection
+      })
+    }
+    else {
+      this.setState({
+        selectedScenario: ''
+      })
     }
   }
   render() {
     return (
+      <div><div className="content-container--card shadow fadein">
+        <div className="content-container">
+          <div className="form-header">
 
-      <div>
-        <div className="picker">
-          <CreatableSelect
-            isClearable
-            options={this.state.scenarioTypes}
-            onChange={this.onScenarioSelection}
-            value={this.state.selectedScenario}
-            placeholder="What do you want to change?" />
+            <h1 className="form-header__title">What If?</h1>
+            <div className="form-header__subtitle">
+              <p>What if rent increases? What if you get a new job?</p>
+              <p>Use this to predict the future.</p>
+            </div>
+            <hr />
+          </div>
+          <div className="picker">
+            <CreatableSelect
+              isClearable
+              options={this.state.scenarioTypes}
+              onChange={this.onScenarioSelection}
+              value={this.state.selectedScenario}
+              placeholder="What do you want to change?" />
+
+            {/* Probably going to have to set up another reducer to manage whatIfs
+Will then need to set the reducers up so actual reducers can be set off of whatIf reducer */}
+
+          </div>
         </div>
-
-        <div className="picker">
-          <CreatableSelect
-            isClearable
-            options={this.state.modificationOptions}
-            onChange={this.onScenarioSelection}
-            value={this.state.selectedModificationOption}
-            placeholder="Select an option" />
-        </div>
-
-        {/* <div className="picker">
-          <CreatableSelect
-            isClearable
-            className="text"
-            options={this.props.expenseCategory}
-            value={this.state.selectedOption}
-            onChange={this.onExpenseSelection}
-            placeholder="Pick an expense" />
-        </div> */}
-
       </div>
+        <div>
+          {
+            this.state.selectedScenario.value
+              ? this.state.selectedScenario.value === "Income"
+                ? <IncomeForm />
+                : this.state.selectedScenario.value === "Expenses"
+                  ? <ExpenseForm />
+                  : <GoalsForm />
+              : ''
+          }
+        </div>
+      </div>
+
     )
   }
 }

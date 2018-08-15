@@ -6,7 +6,7 @@ export const ScenarioBuilder = () => (
   <div>
     <div className="content-container--scenario ">
       <ScenarioChart />
-      {/* <ScenarioForm /> */}
+      <ScenarioForm />
     </div>
   </div>
 )

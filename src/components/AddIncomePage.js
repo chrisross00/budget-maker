@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addIncome } from '../actions/income';
 import IncomeForm from './IncomeForm';
+import { FormHeader } from './FormHeader';
 
 
 export class AddIncomePage extends React.Component {
@@ -17,8 +18,12 @@ export class AddIncomePage extends React.Component {
             <h1 className="page-header__title">Enter your income</h1>
           </div>
         </div>
-        <IncomeForm
-          onSubmit={this.onSubmit} />
+        <div className="content-container shadow">
+          <FormHeader
+            formType={'income'} />
+          <IncomeForm
+            onSubmit={this.onSubmit} />
+        </div>
       </div>
     );
   };

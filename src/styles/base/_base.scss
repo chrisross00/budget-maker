@@ -32,3 +32,9 @@ button:disabled {
 hr {
   margin-top: $l-size;
 }
+
+a {
+  &:hover {
+    color: $millennial-pink;
+  }
+}

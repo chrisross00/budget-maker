@@ -12,6 +12,9 @@ import {
 import { connect } from 'react-redux'
 import totalSelector from '../selectors/total-selector';
 import summarySelector from '../selectors/summarySelector';
+import IncomeForm from '../components/IncomeForm';
+import CreatableSelect from 'react-select';
+
 
 
 // API REFERENCE
@@ -36,11 +39,11 @@ export class Chart extends React.Component {
     }
   }
 
-  onClickHandler = () => {
+  onClickHandler = (e) => {
     // Enter data
     // Get temporary sum of expenses and goals
     // Use them to set state
-
+    console.log(e);
     this.state.clicked
       ? //change
       this.setState({
@@ -95,7 +98,7 @@ export class Chart extends React.Component {
               width={500}
               height={500}>
               <DiscreteColorLegend
-                width={200}
+                width={400}
                 orientation="horizontal"
                 items={[
                   {
@@ -104,11 +107,15 @@ export class Chart extends React.Component {
                   },
                   {
                     title: 'Expenses',
-                    color: '#444444'
+                    color: '#364051'
                   },
                   {
                     title: 'Goals',
-                    color: '#ffa500'
+                    color: '#1c88bf'
+                  },
+                  {
+                    title: 'Total Cash',
+                    color: '#A4f140'
                   }
                 ]}
               />
@@ -189,7 +196,6 @@ export class Chart extends React.Component {
             </div>
           </div>
         </div>
-
       </div>
     )
   }

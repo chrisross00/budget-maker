@@ -4,6 +4,7 @@ export const addExpense = (
   {
     expenseType = '',
     expenseCategory = '',
+    description = '',
     expenseCategoryId = 0,
     amount = 0
   } = {}
@@ -13,6 +14,7 @@ export const addExpense = (
     id: uuid(),
     expenseType,
     expenseCategory,
+    description,
     expenseCategoryId,
     amount
   }

@@ -143,102 +143,90 @@ class GoalsForm extends React.Component {
     const monthlyDifference = numeral(Math.abs(this.state.difference / this.state.duration)).format('$0,0.00');
     const timeToHitGoal = Math.round(this.state.timeToHitGoal);
     return (
-      <div className="content-container--card shadow">
-        <div className="content-container">
-          <div className="form-header">
-            <h1 className="form-header__title">Enter your goals</h1>
-            <div className="form-header__subtitle">
-              <p>Pick a goal and start saving your Monthly Cash.</p>
-              <p>(You can skip this step if you'd rather do this later.)</p>
-            </div>
-            <hr />
+      <div>
+        {this.state.error && <p className="form__error">{this.state.error}</p>}
+        <form
+          autoComplete="off"
+          className="form"
+          onSubmit={this.onCalculate}>
+          <label htmlFor="typePicker">Goal Type</label>
+          <CreatableSelect
+            isClearable
+            options={this.props.goalType}
+            value={this.state.pickerSelection}
+            placeholder="Pick a goal type"
+            onChange={this.handlePickerChange}
+            id="typePicker" />
+
+          <CurrencyFormat
+            id="target"
+            className="text-input"
+            thousandSeparator={true}
+            prefix={'$'}
+            placeholder="How much will you save?"
+            value={this.state.target}
+            onValueChange={this.onTargetChange} />
+
+          <label htmlFor="savings">Current savings</label>
+
+          <CurrencyFormat
+            id="savings"
+            className="text-input"
+            thousandSeparator={true}
+            prefix={'$'}
+            placeholder="Have you saved up already?"
+            value={this.state.startingCash}
+            onValueChange={this.onStartingCashChange} />
+          <label htmlFor="contribution">Monthly payment</label>
+
+          <CurrencyFormat
+            id="contribution"
+            className="text-input"
+            thousandSeparator={true}
+            prefix={'$'}
+            placeholder="How much can you save monthly?"
+            value={this.state.contributableAmount}
+            onValueChange={this.onContributableAmountChange} />
+          <div className="button__container">
+            <button
+              disabled={!this.state.changed}
+              className="button">{calculateWord}alculate Goal</button>
+            <button className="button"
+              disabled={!this.state.calculated}
+              onClick={this.saveGoals}>Save Goal</button>
+
           </div>
-        </div>
-        <div className="content-container">
-          {this.state.error && <p className="form__error">{this.state.error}</p>}
-          <form
-            autoComplete="off"
-            className="form"
-            onSubmit={this.onCalculate}>
-            <label htmlFor="typePicker">Goal Type</label>
-            <CreatableSelect
-              isClearable
-              options={this.props.goalType}
-              value={this.state.pickerSelection}
-              placeholder="Pick a goal type"
-              onChange={this.handlePickerChange}
-              id="typePicker" />
+          {/* Change this here down to a Goal Summary */}
+          {
+            this.state.calculated
+              ? <div>
+                <h2>Here's a summary of your goal:</h2>
+                <p>If you save <strong>{contributableAmount}</strong> per month, you'll have <strong>{projection}</strong> by the end of the year.</p>
+                <p>You need to save at least <strong>{amount}</strong> per month to save <strong>{target}</strong> by the end of the year.</p>
+                {this.state.willMakeGoal
+                  ? (
+                    <div className="goal--good">
+                      <p>You'll make your goal by the end of the year, and beat your goal by {difference}.</p>
+                    </div>
+                  )
+                  : (
+                    <div className="goal--bad">
+                      <p>You are <strong>{difference}</strong> short of achieving your goal by the end of the year. Add <strong>{monthlyDifference}</strong> per month.</p>
+                      <p>At your current rate, it will take <strong>{timeToHitGoal}</strong> months to achieve your goal.</p>
+                    </div>
+                  )}
+              </div>
+              : ''
+          }{
+            this.state.skipGoals
+              ? <div className="button__container">
+                <button className="button"
+                  onClick={this.props.onSkipGoals}>Skip</button>
+              </div>
+              : ''
+          }
+        </form>
 
-            <CurrencyFormat
-              id="target"
-              className="text-input"
-              thousandSeparator={true}
-              prefix={'$'}
-              placeholder="How much will you save?"
-              value={this.state.target}
-              onValueChange={this.onTargetChange} />
-
-            <label htmlFor="savings">Current savings</label>
-
-            <CurrencyFormat
-              id="savings"
-              className="text-input"
-              thousandSeparator={true}
-              prefix={'$'}
-              placeholder="Have you saved up already?"
-              value={this.state.startingCash}
-              onValueChange={this.onStartingCashChange} />
-            <label htmlFor="contribution">Monthly payment</label>
-
-            <CurrencyFormat
-              id="contribution"
-              className="text-input"
-              thousandSeparator={true}
-              prefix={'$'}
-              placeholder="How much can you save monthly?"
-              value={this.state.contributableAmount}
-              onValueChange={this.onContributableAmountChange} />
-            <div className="button__container">
-              <button
-                disabled={!this.state.changed}
-                className="button">{calculateWord}alculate Goal</button>
-              <button className="button"
-                disabled={!this.state.calculated}
-                onClick={this.saveGoals}>Save Goal</button>
-
-            </div>
-            {/* Change this here down to a Goal Summary */}
-            {
-              this.state.calculated
-                ? <div>
-                  <h2>Here's a summary of your goal:</h2>
-                  <p>If you save <strong>{contributableAmount}</strong> per month, you'll have <strong>{projection}</strong> by the end of the year.</p>
-                  <p>You need to save at least <strong>{amount}</strong> per month to save <strong>{target}</strong> by the end of the year.</p>
-                  {this.state.willMakeGoal
-                    ? (
-                      <div className="goal--good">
-                        <p>You'll make your goal by the end of the year, and beat your goal by {difference}.</p>
-                      </div>
-                    )
-                    : (
-                      <div className="goal--bad">
-                        <p>You are <strong>{difference}</strong> short of achieving your goal by the end of the year. Add <strong>{monthlyDifference}</strong> per month.</p>
-                        <p>At your current rate, it will take <strong>{timeToHitGoal}</strong> months to achieve your goal.</p>
-                      </div>
-                    )}
-                </div>
-                : ''
-            }{
-              this.state.skipGoals
-                ? <div className="button__container">
-                  <button className="button"
-                    onClick={this.props.onSkipGoals}>Skip</button>
-                </div>
-                : ''
-            }
-          </form>
-
-        </div>
       </div>
     )
   }

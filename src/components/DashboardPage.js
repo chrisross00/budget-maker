@@ -1,15 +1,16 @@
 import React from 'react';
-import IncomeList from './IncomeList';
-import ExpenseList from './ExpenseList';
-import GoalList from './GoalList';
 import SummaryList from './SummaryList';
+import List from './List';
 
 export const ExpenseDashboardPage = () => (
   <div className="content-container">
     <SummaryList />
-    <IncomeList />
-    <ExpenseList />
-    <GoalList />
+    <List
+      parent={'income'} />
+    <List
+      parent={'expenses'} />
+    <List
+      parent={'goals'} />
   </div>
 );
 

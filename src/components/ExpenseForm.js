@@ -5,8 +5,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import { addExpense } from '../actions/expense';
 import { updateExpense } from '../actions/expense';
 import expensesSelector from '../selectors/expensesSelector';
-import ExpenseList from './ExpenseList';
-
+import List from './List';
 
 export class ExpenseForm extends React.Component {
   constructor(props) {
@@ -98,6 +97,7 @@ export class ExpenseForm extends React.Component {
           {
             expenseType: this.state.expenseType,
             expenseCategory: this.state.expenseCategory,
+            description: this.state.expenseCategory,
             expenseCategoryId: this.state.expenseCategoryId,
             amount: this.state.amount
           })
@@ -105,6 +105,7 @@ export class ExpenseForm extends React.Component {
           {
             expenseType: this.state.expenseType,
             expenseCategory: this.state.expenseCategory,
+            description: this.state.expenseCategory,
             expenseCategoryId: this.state.expenseCategoryId,
             amount: this.state.amount
           })
@@ -116,7 +117,8 @@ export class ExpenseForm extends React.Component {
         selectActive: false,
         exists: false,
         selectedOption: '',
-        error: ''
+        error: '',
+        description: ''
       })
     }
   }
@@ -124,63 +126,47 @@ export class ExpenseForm extends React.Component {
     const word = this.state.exists ? 'Update' : 'Add';
     return (
       <div>
-        <div className="content-container--card shadow fadein">
-          <div className="content-container">
-            <div className="form-header">
-              <h1 className="form-header__title">Enter your monthly expenses</h1>
-              <div className="form-header__subtitle">
-                <p>Rent, groceries, bills... The lame stuff.</p>
-                <p> Let's figure out your monthly bills.</p>
-              </div>
-              <hr />
-            </div>
-          </div>
-          <div className="content-container">
-            <form
-              autoComplete="off"
-              className="form"
-              onSubmit={this.onSubmit}>
-              {this.state.error && <p className="form__error">{this.state.error}</p>}
+        <form
+          autoComplete="off"
+          className="form"
+          onSubmit={this.onSubmit}>
+          {this.state.error && <p className="form__error">{this.state.formType}</p>}
 
-              <div className="picker">
-                <CreatableSelect
-                  isClearable
-                  className="text"
-                  options={this.props.expenseCategory}
-                  value={this.state.selectedOption}
-                  onChange={this.onExpenseSelection}
-                  placeholder="Pick one or type to add" />
-              </div>
-              <CurrencyFormat
-                className="text-input"
-                thousandSeparator={true}
-                prefix={'$'}
-                placeholder="How much is it?"
-                value={this.state.amount}
-                onValueChange={this.onValueChange} />
-
-              <div className="button__container">
-                <button
-                  disabled={!this.state.selectActive}
-                  className="button">{word} Expense</button>
-
-                <button
-                  disabled={!this.props.expenses.length >= 1}
-                  onClick={this.props.onComplete}
-                  className="button">Save Expenses</button>
-              </div>
-            </form>
+          <div className="picker">
+            <CreatableSelect
+              isClearable
+              className="text"
+              options={this.props.expenseCategory}
+              value={this.state.selectedOption}
+              onChange={this.onExpenseSelection}
+              placeholder="Pick one or type to add" />
           </div>
-          <div className="content-container">
-            <hr />
-            <ExpenseList {...this.props.expenses}
-              isOpened={this.state.isOpened} />
+          <CurrencyFormat
+            className="text-input"
+            thousandSeparator={true}
+            prefix={'$'}
+            placeholder="How much is it?"
+            value={this.state.amount}
+            onValueChange={this.onValueChange} />
+
+          <div className="button__container">
+            <button
+              disabled={!this.state.selectActive}
+              className="button">{word} Expense</button>
+
+            <button
+              disabled={!this.props.expenses.length >= 1}
+              onClick={this.props.onComplete}
+              className="button">Save Expenses</button>
           </div>
+        </form>
+        <div>
+          <hr />
+          <List
+            isOpened={this.state.isOpened}
+            parent={'expenses'} />
         </div>
-
-
       </div>
-
     )
   }
 }

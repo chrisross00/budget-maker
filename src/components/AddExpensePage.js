@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
+import { FormHeader } from './FormHeader';
 
 export class AddExpensePage extends React.Component {
   onComplete = () => {
@@ -14,9 +15,13 @@ export class AddExpensePage extends React.Component {
             <h1 className="page-header__title">Enter your expenses</h1>
           </div>
         </div>
-        <ExpenseForm
-          onComplete={this.onComplete}
-          isOpened={true} />
+        <div className="content-container shadow">
+          <FormHeader
+            formType={'expenses'} />
+          <ExpenseForm
+            onComplete={this.onComplete}
+            isOpened={true} />
+        </div>
       </div>
     );
   };
