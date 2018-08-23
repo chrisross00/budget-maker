@@ -11,7 +11,7 @@ export class Progress extends React.Component {
 
   render() {
     return (
-      <div className="content-container--card__title shadow--light" >
+      <div className="shadow--light" >
         <div className="content-container--subcontainer">
           {
             this.props.progress.map((step) => {

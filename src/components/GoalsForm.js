@@ -123,10 +123,10 @@ class GoalsForm extends React.Component {
     this.props.onSaveGoal({
       name: this.state.name,
       target: this.state.target,
-      amount: this.state.amount,
+      amount: this.state.contributableAmount,
       projection: this.state.projection,
       difference: this.state.difference,
-      contributableAmount: this.state.contributableAmount,
+      contributableAmount: this.state.amount,
       startingCash: this.state.startingCash
     });
   }

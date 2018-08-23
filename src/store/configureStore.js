@@ -11,6 +11,10 @@ import goalTypeReducer from '../reducers/goalType';
 import incomeReducer from '../reducers/income';
 import incomeTypeReducer from '../reducers/incomeType';
 import progressReducer from '../reducers/progress';
+import whatIfIncomeReducer from '../reducers/whatIfIncome';
+import whatIfExpenseReducer from '../reducers/whatIfExpense';
+import whatIfGoalReducer from '../reducers/whatIfGoal';
+import whatIfReducer from '../reducers/whatIfs';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -27,7 +31,11 @@ export default () => {
       goalType: goalTypeReducer,
       incomeType: incomeTypeReducer,
       income: incomeReducer,
-      progress: progressReducer
+      progress: progressReducer,
+      whatIfIncome: whatIfIncomeReducer,
+      whatIfExpense: whatIfExpenseReducer,
+      whatIfGoal: whatIfGoalReducer,
+      whatIfs: whatIfReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );

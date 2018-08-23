@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux'
 import CurrencyFormat from 'react-currency-format';
 import CreatableSelect from 'react-select/lib/Creatable';
-import { addExpense } from '../actions/expense';
-import { updateExpense } from '../actions/expense';
 import expensesSelector from '../selectors/expensesSelector';
 import List from './List';
+import formatInUsd from '../helpers/formatInUsd';
+import summarySelector from '../selectors/summarySelector';
 
 export class ExpenseForm extends React.Component {
   constructor(props) {
@@ -47,19 +47,22 @@ export class ExpenseForm extends React.Component {
           expenseType: selection.expenseType,
           value: '',
           exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
-          selectedOption: selection
+          selectedOption: selection,
+          amount: (
+            this.props.expenses
+              .filter(expense => expense.expenseCategoryId === selection.expenseCategoryId))[0].amount
         })
       }
       else {
-        console.log("DNE");
         this.setState({
           selectActive: true,
-          expenseCategoryId: this.props.expenses.length + 1,
+          expenseCategoryId: selection.expenseCategoryId,
           expenseCategory: selection.label,
           expenseType: selection.expenseType,
           value: '',
           exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
-          selectedOption: selection
+          selectedOption: selection,
+          amount: ''
         })
       }
     } else {
@@ -70,19 +73,10 @@ export class ExpenseForm extends React.Component {
         value: '',
         exists: false,
         selectActive: false,
-        selectedOption: ''
+        selectedOption: '',
+        amount: ''
       }))
     }
-    // Test for adding new expense by typing - implement later
-    // console.log({
-    //   selectActive: true,
-    //   expenseCategoryId: this.props.expenses.length + 1,
-    //   expenseCategory: selection.label,
-    //   expenseType: selection.expenseType,
-    //   value: '',
-    //   exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
-    //   selectedOption: selection
-    // });
   }
   onSubmit = (e) => {
     e.preventDefault();
@@ -161,10 +155,13 @@ export class ExpenseForm extends React.Component {
           </div>
         </form>
         <div>
-          <hr />
+          {/* <hr />
           <List
-            isOpened={this.state.isOpened}
-            parent={'expenses'} />
+            isOpened={false}
+            parent={'Expenses'}
+            propsToRender={this.props.propsToRender ? this.props.propsToRender : this.props.expenses}
+            summaryToRender={formatInUsd(this.props.summary.totalCostOfLiving)}
+            wordToRender={'Expenses'} /> */}
         </div>
       </div>
     )
@@ -174,12 +171,8 @@ export class ExpenseForm extends React.Component {
 const mapStateToProps = (state) => {
   return {
     expenses: state.expense,
-    expenseCategory: state.expenseCategory
+    expenseCategory: state.expenseCategory,
+    summary: summarySelector(state.income, state.expense, state.goal)
   }
 };
-const mapDispatchToProps = (dispatch) => ({
-  addExpense: (expense) => { dispatch(addExpense(expense)) },
-  updateExpense: (id, expense) => { dispatch(updateExpense(id, expense)) }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
+export default connect(mapStateToProps)(ExpenseForm);

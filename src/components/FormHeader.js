@@ -24,6 +24,11 @@ export class FormHeader extends React.Component {
         title: "Enter your goals",
         subtitle: "Pick a goal and start saving your Monthly Cash.",
         subtitle2: "(You can skip this step if you'd rather do this later.)"
+      },
+      whatIf: {
+        title: "What If?",
+        subtitle: "What if rent increases? What if you get a new job?",
+        subtitle2: "Use this to predict the future."
       }
     });
     return (

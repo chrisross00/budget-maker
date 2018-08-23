@@ -16,7 +16,6 @@ class Summary extends React.Component {
     }
   }
   onClickHandler = () => {
-    console.log('clicked');
     this.setState({
       isOpened: !this.state.isOpened
     });
@@ -31,7 +30,7 @@ class Summary extends React.Component {
           <h2>What If Scenarios</h2>
         </Link>
         <h2>Budget Summary</h2>
-        {this.props.goals.length === 0
+        {this.props.expenses.length === 0
           ? ''
           :
           <div>
@@ -46,8 +45,8 @@ class Summary extends React.Component {
                   <h3 className="list-header-title">{formatInUsd(this.props.summary.totalCash)}</h3>
                 </div>
                 <Collapse isOpened={this.state.isOpened}>
-                  <div className="list-item">Biweekly cash
-                  <span className="list-item__data">{formatInUsd(this.props.summary.totalCash / 2)}</span>
+                  <div className="list-item">{this.props.income.frequencyType}
+                    <span className="list-item__data">{formatInUsd(this.props.summary.totalCash / 2)}</span>
                   </div>
                 </Collapse>
               </div>
@@ -66,7 +65,7 @@ const mapStateToProps = (state) => {
     emergencyFund: state.emergencyFund,
     expenses: state.expense,
     expenseTotal: totalSelector(state.expense),
-    incomeTotal: totalSelector(state.income, 2),
+    incomeTotal: totalSelector(state.income),
     goalTotal: totalSelector(state.goal),
     biggestItems: biggestItemSelector(state.expense),
     summary: summarySelector(state.income, state.expense, state.goal)

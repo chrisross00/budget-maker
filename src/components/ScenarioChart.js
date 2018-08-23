@@ -10,12 +10,9 @@ import {
   DiscreteColorLegend
 } from 'react-vis';
 import { connect } from 'react-redux'
+import { resetWhatIfExpense, resetWhatIfGoal, resetWhatIfIncome, resetWhatIfs } from '../actions/whatIf';
 import totalSelector from '../selectors/total-selector';
 import summarySelector from '../selectors/summarySelector';
-import IncomeForm from '../components/IncomeForm';
-import CreatableSelect from 'react-select';
-
-
 
 // API REFERENCE
 //// https://uber.github.io/react-vis/documentation/api-reference/xy-plot
@@ -27,65 +24,22 @@ import CreatableSelect from 'react-select';
 // // https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
 
 export class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      incomeTotal: this.props.incomeTotal,
-      expenseTotal: this.props.expenseTotal,
-      goalTotal: this.props.goalTotal,
-      totalCash: this.props.summary.totalCash,
-      clicked: true,
-      error: ''
-    }
+  resetter = () => {
+    this.props.resetWhatIfExpense(this.props.expenses);
+    this.props.resetWhatIfIncome(this.props.income);
+    this.props.resetWhatIfGoal(this.props.goals);
+    this.props.resetWhatIfs();
   }
-
   onClickHandler = (e) => {
-    // Enter data
-    // Get temporary sum of expenses and goals
-    // Use them to set state
-    console.log(e);
-    this.state.clicked
-      ? //change
-      this.setState({
-        expenseTotal: this.state.expenseTotal * 2,
-        goalTotal: this.state.goalTotal * 2,
-        totalCash: this.state.incomeTotal - this.state.goalTotal * 2 - this.state.expenseTotal * 2,
-        clicked: false
-      })
-      : //revert
-      this.setState({
-        expenseTotal: this.props.expenseTotal,
-        goalTotal: this.props.goalTotal,
-        totalCash: this.props.summary.totalCash,
-        clicked: true
-      })
+    this.resetter();
   }
   onHover = (value) => {
     // console.log(value.y - value.y0);
   }
+  componentDidMount = () => {
+    this.resetter();
+  }
   render() {
-    const preData = [
-      { x: 'Now', y: this.props.incomeTotal },
-      { x: 'Now', y: this.props.expenseTotal },
-      { x: 'Now', y: this.props.goalTotal },
-      { x: 'Now', y: this.props.summary.totalCash },
-    ];
-    const newDatas = [
-      { x: 'After', y: this.state.incomeTotal },
-      { x: 'After', y: this.state.expenseTotal },
-      { x: 'After', y: this.state.goalTotal },
-      {
-        x: 'After',
-        y: (this.state.totalCash) >= 0
-          ? (this.state.totalCash)
-          : 0
-      },
-      {
-        x: 'After', y: (this.state.totalCash) >= 0
-          ? 0
-          : (this.state.totalCash)
-      }
-    ];
     return (
 
       <div>
@@ -129,9 +83,9 @@ export class Chart extends React.Component {
                 color="#f7f7f7"
                 data={[
                   // Income Before
-                  preData[0],
+                  { x: 'Now', y: this.props.incomeTotal },
                   // Income After
-                  newDatas[0]
+                  { x: 'After', y: this.props.whatIfIncomeTotal }
                 ]}
                 stroke="#333" />
 
@@ -142,9 +96,9 @@ export class Chart extends React.Component {
                 color="#364051"
                 data={[
                   // Expense Before
-                  preData[1],
+                  { x: 'Now', y: this.props.expenseTotal },
                   // Expense After
-                  newDatas[1]
+                  { x: 'After', y: this.props.whatIfExpenseTotal }
                 ]}
                 stroke="#333" />
               <VerticalBarSeries
@@ -153,9 +107,9 @@ export class Chart extends React.Component {
                 color="#1c88bf"
                 data={[
                   // Goal Before
-                  preData[2],
+                  { x: 'Now', y: this.props.goalTotal },
                   // Goal After
-                  newDatas[2]
+                  { x: 'After', y: this.props.whatIfGoalTotal }
                 ]}
                 stroke="#333" />
               <VerticalBarSeries
@@ -164,9 +118,9 @@ export class Chart extends React.Component {
                 color="#A4f140"
                 data={[
                   // Leftover Before
-                  preData[3],
+                  { x: 'Now', y: this.props.summary.totalCash >= 0 ? this.props.summary.totalCash : 0 },
                   // Leftover After
-                  newDatas[3]
+                  { x: 'After', y: this.props.whatIfSummary.totalCash >= 0 ? this.props.whatIfSummary.totalCash : 0 }
                 ]}
                 stroke="#333" />
               {/* End Total Expenses */}
@@ -178,7 +132,7 @@ export class Chart extends React.Component {
                 color="#66000000"
                 data={[
                   // Leftover After
-                  newDatas[4]
+                  { x: 'After', y: this.props.whatIfSummary.totalCash >= 0 ? 0 : this.props.whatIfSummary.totalCash }
                 ]}
                 stroke="#ff0000"
                 onNearestXY={this.onHover} />
@@ -188,11 +142,7 @@ export class Chart extends React.Component {
             <div className="button__container">
               <button
                 className="button"
-                onClick={this.onClickHandler}>Update Data</button>
-            </div>
-            <div className="content-container">
-              <p></p>
-              {this.state.error && <p className="form__error">{this.state.error}</p>}
+                onClick={this.onClickHandler}>Reset</button>
             </div>
           </div>
         </div>
@@ -208,7 +158,19 @@ const mapStateToProps = (state) => ({
   expenseTotal: totalSelector(state.expense),
   incomeTotal: totalSelector(state.income, 2),
   goalTotal: totalSelector(state.goal),
-  summary: summarySelector(state.income, state.expense, state.goal)
+  whatIfIncomeTotal: totalSelector(state.whatIfIncome, 2),
+  whatIfExpenseTotal: totalSelector(state.whatIfExpense),
+  whatIfGoalTotal: totalSelector(state.whatIfGoal),
+  summary: summarySelector(state.income, state.expense, state.goal),
+  whatIfSummary: summarySelector(state.whatIfIncome, state.whatIfExpense, state.whatIfGoal),
+  whatIfs: state.whatIfs
 })
 
-export default connect(mapStateToProps)(Chart);
+const mapDispatchToProps = (dispatch) => ({
+  resetWhatIfExpense: (expense) => dispatch(resetWhatIfExpense(expense)),
+  resetWhatIfGoal: (goal) => dispatch(resetWhatIfGoal(goal)),
+  resetWhatIfIncome: (income) => dispatch(resetWhatIfIncome(income)),
+  resetWhatIfs: () => dispatch(resetWhatIfs())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);

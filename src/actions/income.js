@@ -12,7 +12,7 @@ export const addIncome = (
 ) => ({
   type: 'ADD_INCOME',
   income: {
-    incomeId: uuid(),
+    id: uuid(),
     incomeType,
     incomeTypeId,
     description,
@@ -20,4 +20,10 @@ export const addIncome = (
     frequencyType,
     frequencyTypeId
   }
+});
+
+export const updateIncome = (id, updates) => ({
+  type: 'UPDATE_INCOME',
+  id,
+  updates
 });

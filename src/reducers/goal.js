@@ -1,4 +1,5 @@
-const goalDefaultValue = [];
+const goalDefaultValue = [
+];
 
 export default (state = goalDefaultValue, action) => {
   switch (action.type) {

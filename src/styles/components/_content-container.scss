@@ -30,7 +30,19 @@
   max-width: 55rem;
 }
 
-.content-container--scenario {
+.content-container--subcontainer--item {
+  padding: 0 $m-size;
+}
+
+.content-container--sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 999 !important;
+}
+
+.content-container--whatif {
   display: flex;
   flex-direction: column;
   justify-content: space-between;

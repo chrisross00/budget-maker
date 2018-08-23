@@ -15,6 +15,7 @@ import incomefixture from './tests/fixures/income';
 import { addExpense } from './actions/expense';
 import { addGoal } from './actions/goal';
 import { addIncome } from './actions/income';
+import { addWhatIfExpense, addWhatIfGoal, addWhatIfIncome } from './actions/whatIf';
 
 const store = configureStore();
 const jsx = (
@@ -29,18 +30,28 @@ const renderApp = () => {
     hasRendered = true;
   }
 };
-// RATS - this is just to get an expense object in for testing purposes
-store.dispatch(addExpense(expensesFixture[0]));
-store.dispatch(addExpense(expensesFixture[1]));
-store.dispatch(addExpense(expensesFixture[2]));
-store.dispatch(addExpense(expensesFixture[3]));
-store.dispatch(addExpense(expensesFixture[4]));
-store.dispatch(addExpense(expensesFixture[5]));
-store.dispatch(addExpense(expensesFixture[6]));
-store.dispatch(addExpense(expensesFixture[7]));
-store.dispatch(addGoal(goalsFixture))
-store.dispatch(addIncome(incomefixture))
-// End RATS
+// // RATS - this is just to get an expense object in for testing purposes
+// store.dispatch(addExpense(expensesFixture[0]));
+// store.dispatch(addExpense(expensesFixture[1]));
+// store.dispatch(addExpense(expensesFixture[2]));
+// store.dispatch(addExpense(expensesFixture[3]));
+// store.dispatch(addExpense(expensesFixture[4]));
+// store.dispatch(addExpense(expensesFixture[5]));
+// store.dispatch(addExpense(expensesFixture[6]));
+// store.dispatch(addExpense(expensesFixture[7]));
+// store.dispatch(addWhatIfExpense(expensesFixture[0]));
+// store.dispatch(addWhatIfExpense(expensesFixture[1]));
+// store.dispatch(addWhatIfExpense(expensesFixture[2]));
+// store.dispatch(addWhatIfExpense(expensesFixture[3]));
+// store.dispatch(addWhatIfExpense(expensesFixture[4]));
+// store.dispatch(addWhatIfExpense(expensesFixture[5]));
+// store.dispatch(addWhatIfExpense(expensesFixture[6]));
+// store.dispatch(addWhatIfExpense(expensesFixture[7]));
+// store.dispatch(addGoal(goalsFixture))
+// store.dispatch(addIncome(incomefixture))
+// store.dispatch(addWhatIfGoal(goalsFixture))
+// store.dispatch(addWhatIfIncome(incomefixture))
+// // End RATS
 
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));

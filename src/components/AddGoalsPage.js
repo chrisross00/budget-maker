@@ -21,16 +21,20 @@ export class AddGoalsPage extends React.Component {
           <FormHeader
             formType={'goals'} />
           <GoalsForm
-            onSaveGoal={this.onSaveGoal} />
+            onSaveGoal={this.onSaveGoal}
+            goal={this.props.goal} />
         </div>
       </div>
     )
   }
 }
 
+const mapStateToProps = (state) => ({
+  goal: state.goal
+})
 
 const mapDispatchToProps = (dispatch) => ({
   addGoal: (goal) => { dispatch(addGoal(goal)) }
 })
 
-export default connect(undefined, mapDispatchToProps)(AddGoalsPage)
+export default connect(mapStateToProps, mapDispatchToProps)(AddGoalsPage)

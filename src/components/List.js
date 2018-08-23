@@ -1,22 +1,14 @@
 import React from 'react';
 import { Collapse } from 'react-collapse';
-import { connect } from 'react-redux';
 import { FaPlusCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ListItem from './ListItem';
-
-import formatInUsd from '../helpers/formatInUsd';
-import summarySelector from '../selectors/summarySelector';
 
 export class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpened: this.props.isOpened ? this.props.isOpened : false,
-      parent: this.props.parent ? this.props.parent : '',
-      propToRender: '',
-      summaryToRender: '',
-      wordToRender: ''
+      isOpened: this.props.isOpened ? this.props.isOpened : false
     }
   }
   onClickHandler = () => {
@@ -24,44 +16,22 @@ export class List extends React.Component {
       isOpened: !this.state.isOpened
     });
   }
-  componentDidMount = () => {
-    if (this.state.parent === 'expenses') {
-      this.setState({
-        propToRender: this.props.expense,
-        summaryToRender: formatInUsd(this.props.summary.totalCostOfLiving),
-        wordToRender: 'Expenses'
-      })
-    } else if (this.state.parent === 'income') {
-      this.setState({
-        propToRender: this.props.income,
-        summaryToRender: formatInUsd(this.props.summary.totalMonthlyIncome),
-        wordToRender: 'Income'
-      })
-    } else if (this.state.parent === 'goals') {
-      this.setState({
-        propToRender: this.props.goal,
-        summaryToRender: formatInUsd(this.props.summary.totalGoalContribution),
-        wordToRender: 'Goals'
-      })
-    }
-  }
 
   render() {
-    console.log(this.state.propToRender);
     return (
       <div className="shadow">
         <div className={!this.state.isOpened ? "list-header__clickable" : "list-header__clickable clicked"}
           onClick={this.onClickHandler}>
-          <h3 className="list-header-title">Monthly {this.state.wordToRender}</h3>
-          <h3 className="list-header-title">{this.state.summaryToRender}</h3>
+          <h3 className="list-header-title">Monthly {this.props.wordToRender}</h3>
+          <h3 className="list-header-title">{this.props.summaryToRender}</h3>
         </div>
         <Collapse
           isOpened={this.state.isOpened}>
-          <div>{this.state.propToRender.length === 0
+          <div>{this.props.propsToRender.length === 0
             ? <div className="list-item list-item-message">
-              <span>No {this.state.wordToRender.toLowerCase()} added yet</span>
+              <span>No {this.props.wordToRender.toLowerCase()} added yet</span>
             </div>
-            : this.state.propToRender.map((item) => {
+            : this.props.propsToRender.map((item) => {
               return <ListItem {...item} key={item.id} />
             })
           }
@@ -75,7 +45,7 @@ export class List extends React.Component {
               </span>
             </div>
             <div>
-              <Link to={this.state.parent}>
+              <Link to={this.props.parent}>
                 <FaPlusCircle />
               </Link>
             </div>
@@ -85,12 +55,4 @@ export class List extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  expense: state.expense,
-  goal: state.goal,
-  income: state.income,
-  summary: summarySelector(state.income, state.expense, state.goal)
-});
-
-export default connect(mapStateToProps)(List)
+export default List

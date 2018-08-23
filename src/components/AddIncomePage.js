@@ -1,14 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addIncome } from '../actions/income';
+import { addIncome, updateIncome } from '../actions/income';
 import IncomeForm from './IncomeForm';
+import List from './List';
+
 import { FormHeader } from './FormHeader';
+import formatInUsd from '../helpers/formatInUsd';
 
 
 export class AddIncomePage extends React.Component {
-  onSubmit = (income) => {
+  addIncome = (income) => {
     this.props.addIncome(income);
     this.props.history.push('/');
+  }
+  updateIncome = (id, income) => {
+    this.props.updateIncome(id, income);
   }
   render() {
     return (
@@ -22,16 +28,29 @@ export class AddIncomePage extends React.Component {
           <FormHeader
             formType={'income'} />
           <IncomeForm
-            onSubmit={this.onSubmit} />
+            addIncome={this.addIncome}
+            updateIncome={this.updateIncome}
+            income={this.props.income} />
+          <List
+            isOpened={true}
+            parent={'Income'}
+            propsToRender={this.props.income}
+            wordToRender={'Income'} />
         </div>
       </div>
     );
   };
 };
 
+const mapStateToProps = (state) => {
+  return {
+    income: state.income
+  }
+}
 const mapDispatchToProps = (dispatch) => ({
-  addIncome: (income) => dispatch(addIncome(income))
+  addIncome: (income) => dispatch(addIncome(income)),
+  updateIncome: (id, income) => dispatch(updateIncome(id, income))
 });
 
 
-export default connect(undefined, mapDispatchToProps)(AddIncomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(AddIncomePage);
