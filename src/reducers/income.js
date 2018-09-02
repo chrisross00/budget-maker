@@ -21,6 +21,8 @@ export default (state = defaultIncome, action) => {
       })
     case 'REMOVE_INCOME':
       return (state.filter(({ id }) => id != action.id));
+    case 'SET_INCOME':
+      return action.income;
     default:
       return state;
   }

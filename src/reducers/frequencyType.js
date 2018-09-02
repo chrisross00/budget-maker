@@ -18,7 +18,7 @@ const frequencyTypeDefaultState = [
     value: 'Semi-monthly',
     label: 'Semi-monthly',
     id: 3,
-    multiplier: 20
+    multiplier: 2
   }, {
     value: 'Monthly',
     label: 'Monthly',

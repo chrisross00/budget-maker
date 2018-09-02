@@ -1,13 +1,12 @@
 import React from 'react';
 import {
-  XYPlot,
   XAxis,
   YAxis,
   VerticalGridLines,
   HorizontalGridLines,
   VerticalBarSeries,
-  VerticalBarSeriesCanvas,
-  DiscreteColorLegend
+  DiscreteColorLegend,
+  FlexibleXYPlot
 } from 'react-vis';
 import { connect } from 'react-redux'
 import { resetWhatIfExpense, resetWhatIfGoal, resetWhatIfIncome, resetWhatIfs } from '../actions/whatIf';
@@ -42,111 +41,108 @@ export class Chart extends React.Component {
   render() {
     return (
 
-      <div>
-        <div className="content-container--card shadow">
-          <div>
-            <XYPlot
-              className="clustered-stacked-bar-chart-example"
-              xType="ordinal"
-              stackBy="y"
-              width={500}
-              height={500}>
-              <DiscreteColorLegend
-                width={400}
-                orientation="horizontal"
-                items={[
-                  {
-                    title: 'Income',
-                    color: '#f0f0f0'
-                  },
-                  {
-                    title: 'Expenses',
-                    color: '#364051'
-                  },
-                  {
-                    title: 'Goals',
-                    color: '#1c88bf'
-                  },
-                  {
-                    title: 'Total Cash',
-                    color: '#A4f140'
-                  }
-                ]}
-              />
-              <VerticalGridLines />
-              <HorizontalGridLines />
-              <XAxis />
-              <YAxis />
-              <VerticalBarSeries
-                animation
-                cluster="Income"
-                color="#f7f7f7"
-                data={[
-                  // Income Before
-                  { x: 'Now', y: this.props.incomeTotal },
-                  // Income After
-                  { x: 'After', y: this.props.whatIfIncomeTotal }
-                ]}
-                stroke="#333" />
+      <div className="chart shadow"
+        style={{
+          height: '36.1rem'
+        }}>
+        <FlexibleXYPlot
+          xType="ordinal"
+          stackBy="y"
+          margin={{ left: 50 }}>
+          <VerticalGridLines />
+          <HorizontalGridLines />
+          <XAxis />
+          <YAxis />
+          <VerticalBarSeries
+            animation
+            cluster="Income"
+            color="#f7f7f7"
+            data={[
+              // Income Before
+              { x: 'Now', y: this.props.incomeTotal },
+              // Income After
+              { x: 'After', y: this.props.whatIfIncomeTotal }
+            ]}
+            stroke="#333" />
 
-              {/* Total Expenses */}
-              <VerticalBarSeries
-                animation
-                cluster="Total Expenses"
-                color="#364051"
-                data={[
-                  // Expense Before
-                  { x: 'Now', y: this.props.expenseTotal },
-                  // Expense After
-                  { x: 'After', y: this.props.whatIfExpenseTotal }
-                ]}
-                stroke="#333" />
-              <VerticalBarSeries
-                animation
-                cluster="Total Expenses"
-                color="#1c88bf"
-                data={[
-                  // Goal Before
-                  { x: 'Now', y: this.props.goalTotal },
-                  // Goal After
-                  { x: 'After', y: this.props.whatIfGoalTotal }
-                ]}
-                stroke="#333" />
-              <VerticalBarSeries
-                animation
-                cluster="Total Expenses"
-                color="#A4f140"
-                data={[
-                  // Leftover Before
-                  { x: 'Now', y: this.props.summary.totalCash >= 0 ? this.props.summary.totalCash : 0 },
-                  // Leftover After
-                  { x: 'After', y: this.props.whatIfSummary.totalCash >= 0 ? this.props.whatIfSummary.totalCash : 0 }
-                ]}
-                stroke="#333" />
-              {/* End Total Expenses */}
+          {/* Total Expenses */}
+          <VerticalBarSeries
+            animation
+            cluster="Total Expenses"
+            color="#364051"
+            data={[
+              // Expense Before
+              { x: 'Now', y: this.props.expenseTotal },
+              // Expense After
+              { x: 'After', y: this.props.whatIfExpenseTotal }
+            ]}
+            stroke="#333" />
+          <VerticalBarSeries
+            animation
+            cluster="Total Expenses"
+            color="#1c88bf"
+            data={[
+              // Goal Before
+              { x: 'Now', y: this.props.goalTotal },
+              // Goal After
+              { x: 'After', y: this.props.whatIfGoalTotal }
+            ]}
+            stroke="#333" />
+          <VerticalBarSeries
+            animation
+            cluster="Total Expenses"
+            color="#A4f140"
+            data={[
+              // Leftover Before
+              { x: 'Now', y: this.props.summary.totalCash >= 0 ? this.props.summary.totalCash : 0 },
+              // Leftover After
+              { x: 'After', y: this.props.whatIfSummary.totalCash >= 0 ? this.props.whatIfSummary.totalCash : 0 }
+            ]}
+            stroke="#333" />
+          {/* End Total Expenses */}
 
-              {/* Transparency when over */}
-              <VerticalBarSeries
-                animation
-                cluster="Total Expenses"
-                color="#66000000"
-                data={[
-                  // Leftover After
-                  { x: 'After', y: this.props.whatIfSummary.totalCash >= 0 ? 0 : this.props.whatIfSummary.totalCash }
-                ]}
-                stroke="#ff0000"
-                onNearestXY={this.onHover} />
+          {/* Transparency when over */}
+          <VerticalBarSeries
+            animation
+            cluster="Total Expenses"
+            color="#66000000"
+            data={[
+              // Leftover After
+              { x: 'After', y: this.props.whatIfSummary.totalCash >= 0 ? 0 : this.props.whatIfSummary.totalCash }
+            ]}
+            stroke="#ff0000"
+            onNearestXY={this.onHover} />
 
-              {/* End total expenses */}
-            </XYPlot>
-            <div className="button__container">
-              <button
-                className="button"
-                onClick={this.onClickHandler}>Reset</button>
-            </div>
-          </div>
+          {/* End total expenses */}
+        </FlexibleXYPlot>
+        <div className="button__container">
+          <DiscreteColorLegend
+            orientation="horizontal"
+            items={[
+              {
+                title: 'Income',
+                color: '#f0f0f0'
+              },
+              {
+                title: 'Expenses',
+                color: '#364051'
+              },
+              {
+                title: 'Goals',
+                color: '#1c88bf'
+              },
+              {
+                title: 'Total Cash',
+                color: '#A4f140'
+              }
+            ]}
+          />
+          <button
+            className="button"
+            onClick={this.onClickHandler}>Reset</button>
         </div>
       </div>
+
     )
   }
 }
@@ -156,9 +152,9 @@ const mapStateToProps = (state) => ({
   expenses: state.expense,
   goals: state.goal,
   expenseTotal: totalSelector(state.expense),
-  incomeTotal: totalSelector(state.income, 2),
+  incomeTotal: totalSelector(state.income),
   goalTotal: totalSelector(state.goal),
-  whatIfIncomeTotal: totalSelector(state.whatIfIncome, 2),
+  whatIfIncomeTotal: totalSelector(state.whatIfIncome),
   whatIfExpenseTotal: totalSelector(state.whatIfExpense),
   whatIfGoalTotal: totalSelector(state.whatIfGoal),
   summary: summarySelector(state.income, state.expense, state.goal),

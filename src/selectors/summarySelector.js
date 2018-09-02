@@ -4,8 +4,8 @@ import numeral from 'numeral';
 
 
 // TODO: update so return in numerals
-export default (income, expenses, goals, multiplier = 1) => {
-  const totalMonthlyIncome = parseFloat(getTotal(income, multiplier));
+export default (income, expenses, goals) => {
+  const totalMonthlyIncome = parseFloat(getTotal(income));
   const totalCostOfLiving = parseFloat(getTotal(expenses));
   const totalGoalContribution = parseFloat(getTotal(goals));
   const savings = parseFloat(goals.map((goal) => goal.savings))

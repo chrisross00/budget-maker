@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addIncome } from '../actions/income';
-import { addGoal } from '../actions/goal';
-import { updateProgress } from '../actions/progress';
-import { addExpense } from '../actions/expense';
+import { startAddIncome } from '../actions/income';
+import { startAddGoal } from '../actions/goal';
+import { startAddExpense } from '../actions/expense';
+import { startUpdateProgress } from '../actions/progress';
 
 import formatInUsd from '../helpers/formatInUsd'
 import FormHeader from './FormHeader'
@@ -14,6 +14,7 @@ import ExpenseForm from './ExpenseForm';
 import Progress from './Progress';
 import summarySelector from '../selectors/summarySelector';
 import Card from './Card';
+import SummaryHeader from './SummaryHeader';
 
 // Want to fade in each component - probably want to use React lifecycle
 // unmount, will receive props, etc
@@ -26,81 +27,62 @@ export class Setup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showIncome: true,
-      showExpense: false,
-      showGoals: false,
+      showIncome: this.props.progress ? this.props.progress.showIncome : true,
+      showExpenses: this.props.progress ? this.props.progress.showExpenses : false,
+      showGoals: this.props.progress ? this.props.progress.showGoals : false,
       step: 1,
       animate: false,
     }
   }
 
   onSaveExpenses = () => {
-    this.props.updateProgress(2, {
-      complete: true,
-      inProgress: false
+    this.props.startUpdateProgress({
+      showIncome: false,
+      showExpenses: false,
+      showGoals: true,
+      setupDone: false
     })
     this.setState({
-      showExpense: false,
+      showExpenses: false,
       showGoals: true
-    })
-    this.props.updateProgress(3, {
-      complete: false,
-      inProgress: true
     })
   }
   onSubmitIncome = (income) => {
-    this.props.addIncome(income);
-    this.props.updateProgress(1, {
-      complete: true,
-      inProgress: false
+    this.props.startAddIncome(income);
+    this.props.startUpdateProgress({
+      showIncome: false,
+      showExpenses: true,
+      showGoals: false,
+      setupDone: false
     })
     this.setState({
       showIncome: false,
-      showExpense: true
-    })
-    this.props.updateProgress(2, {
-      complete: false,
-      inProgress: true
+      showExpenses: true
     })
   }
   onSaveGoal = (goal) => {
-    this.props.addGoal(goal);
-    this.props.updateProgress(3, {
-      complete: true,
-      inProgress: false
+    this.props.startAddGoal(goal);
+    this.props.startUpdateProgress({
+      showIncome: false,
+      showExpenses: false,
+      showGoals: false,
+      setupDone: true
     })
-    this.props.history.push('/');
   }
   onSkipGoals = () => {
-    this.props.history.push('/');
+    this.props.startUpdateProgress({
+      showIncome: false,
+      showExpenses: false,
+      showGoals: false,
+      setupDone: true
+    });
   }
   onAddExpense = (expense) => {
-    this.props.addExpense(expense);
+    this.props.startAddExpense(expense);
   }
   render() {
     return (
-      <div>
-        <div className="content-container--sticky fadein">
-          <Progress />
-          <div className="content-container--card__title shadow--light">
-            <div className="content-container--subcontainer">
-              <h4>Monthly Income
-                    <br />
-                {formatInUsd(this.props.summary.totalMonthlyIncome)}
-              </h4>
-              <h4>—</h4>
-              <h4>Monthly Expenses
-                    <br />
-                {formatInUsd(this.props.summary.totalCostOfLiving)}
-              </h4>
-              <h4>=</h4>
-              <h4>Monthly Cash
-                    <br />
-                {formatInUsd(this.props.summary.totalCash)}
-              </h4>
-            </div>
-          </div>
-        </div>
+      <div className="content-container--main fadein">
         {
           this.state.showIncome
             ? (<div className="content-container">
@@ -114,8 +96,10 @@ export class Setup extends React.Component {
             : ''
         }
         {
-          this.state.showExpense
+          this.state.showExpenses
             ? (<div className="content-container">
+              <FormHeader
+                formType={'expenses'} />
               <ExpenseForm
                 addExpense={this.onAddExpense}
                 isOpened={true}
@@ -129,6 +113,8 @@ export class Setup extends React.Component {
           this.state.showGoals ?
             (
               <div className="content-container">
+                <FormHeader
+                  formType={'goals'} />
                 <GoalsForm onSaveGoal={this.onSaveGoal}
                   onSkipGoals={this.onSkipGoals} />
               </div>
@@ -141,7 +127,8 @@ export class Setup extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isDoneWithSetup: state.progress[state.progress.length - 1].complete,
+  progress: state.progress,
+  isDoneWithSetup: state.progress.complete,
   isAuthenticated: !!state.auth.uid,
   summary: summarySelector(state.income, state.expense, state.goal),
   income: state.income,
@@ -151,10 +138,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  addIncome: (income) => dispatch(addIncome(income)),
-  addExpense: (expense) => dispatch(addExpense(expense)),
-  addGoal: (goal) => { dispatch(addGoal(goal)) },
-  updateProgress: (progressId, updates) => { dispatch(updateProgress(progressId, updates)) }
+  startAddIncome: (income) => dispatch(startAddIncome(income)),
+  startAddExpense: (expense) => dispatch(startAddExpense(expense)),
+  startAddGoal: (goal) => { dispatch(startAddGoal(goal)) },
+  startUpdateProgress: (progressId, updates) => { dispatch(startUpdateProgress(progressId, updates)) }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Setup)

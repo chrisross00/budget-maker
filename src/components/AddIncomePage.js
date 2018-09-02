@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addIncome, updateIncome } from '../actions/income';
+import { addIncome, updateIncome, startAddIncome } from '../actions/income';
 import IncomeForm from './IncomeForm';
 import List from './List';
 
@@ -10,7 +10,7 @@ import formatInUsd from '../helpers/formatInUsd';
 
 export class AddIncomePage extends React.Component {
   addIncome = (income) => {
-    this.props.addIncome(income);
+    this.props.startAddIncome(income);
     this.props.history.push('/');
   }
   updateIncome = (id, income) => {
@@ -18,19 +18,16 @@ export class AddIncomePage extends React.Component {
   }
   render() {
     return (
-      <div>
-        <div className="page-header">
-          <div className="content-container">
-            <h1 className="page-header__title">Enter your income</h1>
-          </div>
-        </div>
-        <div className="content-container shadow">
+      <div className="content-container--main fadein">
+        <div className="content-container--card shadow">
           <FormHeader
             formType={'income'} />
           <IncomeForm
             addIncome={this.addIncome}
             updateIncome={this.updateIncome}
             income={this.props.income} />
+        </div>
+        <div className="content-container">
           <List
             isOpened={true}
             parent={'Income'}
@@ -49,7 +46,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => ({
   addIncome: (income) => dispatch(addIncome(income)),
-  updateIncome: (id, income) => dispatch(updateIncome(id, income))
+  updateIncome: (id, income) => dispatch(updateIncome(id, income)),
+  startAddIncome: (income) => dispatch(startAddIncome(income))
 });
 
 

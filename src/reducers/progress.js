@@ -1,37 +1,19 @@
-export const defaultprogress = [
-  {
-    progressId: 1,
-    complete: false,
-    inProgress: true,
-    subtitle: 'Income'
-  }, {
-    progressId: 2,
-    complete: false,
-    inProgress: false,
-    subtitle: 'Expenses'
-  }, {
-    progressId: 3,
-    complete: false,
-    inProgress: false,
-    subtitle: 'Goals'
-  }
-]
+export const defaultprogress = {
+  showIncome: true,
+  showExpenses: false,
+  showGoals: false,
+  setupDone: false
+}
 
 export default (state = defaultprogress, action) => {
   switch (action.type) {
     case 'UPDATE_PROGRESS':
-      console.log(state, action);
-      return state.map((step) => {
-        if (step.progressId === action.progressId) {
-          return {
-            ...step,
-            ...action.updates
-          }
-        }
-        else {
-          return step
-        }
-      })
+      return {
+        ...action.updates
+      }
+    case 'SET_PROGRESS':
+      if (action.progress) { return { ...action.progress } }
+      else { return state }
     default:
       return state
   }

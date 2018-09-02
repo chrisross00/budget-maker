@@ -3,32 +3,35 @@ import SummaryList from './SummaryList';
 import List from './List';
 import { connect } from 'react-redux';
 
+import Setup from './Setup';
 import formatInUsd from '../helpers/formatInUsd';
 import summarySelector from '../selectors/summarySelector';
 
 export class ExpenseDashboardPage extends React.Component {
   render() {
     return (
-      <div className="content-container">
-        <SummaryList />
-        <List
-          isOpened={false}
-          parent={'Income'}
-          propsToRender={this.props.income}
-          summaryToRender={formatInUsd(this.props.summary.totalMonthlyIncome)}
-          wordToRender={'Income'} />
-        <List
-          isOpened={false}
-          parent={'Expenses'}
-          propsToRender={this.props.expenses}
-          summaryToRender={formatInUsd(this.props.summary.totalCostOfLiving)}
-          wordToRender={'Expenses'} />
-        <List
-          isOpened={false}
-          parent={'Goals'}
-          propsToRender={this.props.goal}
-          summaryToRender={formatInUsd(this.props.summary.totalGoalContribution)}
-          wordToRender={'Goals'} />
+      <div className="content-container--main fadein">
+        <div className="content-container">
+          <SummaryList />
+          <List
+            isOpened={false}
+            parent={'Income'}
+            propsToRender={this.props.income}
+            summaryToRender={formatInUsd(this.props.summary.totalMonthlyIncome)}
+            wordToRender={'Income'} />
+          <List
+            isOpened={false}
+            parent={'Expenses'}
+            propsToRender={this.props.expenses}
+            summaryToRender={formatInUsd(this.props.summary.totalCostOfLiving)}
+            wordToRender={'Expenses'} />
+          <List
+            isOpened={false}
+            parent={'Goals'}
+            propsToRender={this.props.goal}
+            summaryToRender={formatInUsd(this.props.summary.totalGoalContribution)}
+            wordToRender={'Goals'} />
+        </div>
       </div>
     )
   }
@@ -39,7 +42,8 @@ const mapStateToProps = (state) => {
     expenses: state.expense,
     goal: state.goal,
     income: state.income,
-    summary: summarySelector(state.income, state.expense, state.goal)
+    summary: summarySelector(state.income, state.expense, state.goal),
+    progress: state.progress.setupDone
   }
 }
 

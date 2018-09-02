@@ -33,7 +33,8 @@ export const addWhatIfIncome = (
     description = '',
     amount = 0,
     frequencyType = '',
-    frequencyTypeId = 0
+    frequencyTypeId = 0,
+    multiplier = 1
   } = {}
 ) => ({
   type: 'ADD_WHATIF_INCOME',
@@ -44,7 +45,8 @@ export const addWhatIfIncome = (
     description,
     amount,
     frequencyType,
-    frequencyTypeId
+    frequencyTypeId,
+    multiplier
   }
 });
 

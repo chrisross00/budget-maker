@@ -27,7 +27,7 @@ export class List extends React.Component {
         </div>
         <Collapse
           isOpened={this.state.isOpened}>
-          <div>{this.props.propsToRender.length === 0
+          <div className="content-container__scrollable">{this.props.propsToRender.length === 0
             ? <div className="list-item list-item-message">
               <span>No {this.props.wordToRender.toLowerCase()} added yet</span>
             </div>

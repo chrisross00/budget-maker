@@ -8,6 +8,8 @@ export default (state = goalDefaultValue, action) => {
         ...state,
         action.goal
       ];
+    case 'SET_GOALS':
+      return action.goals
     default:
       return state
   }

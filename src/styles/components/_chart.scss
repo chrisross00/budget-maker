@@ -1,0 +1,50 @@
+// .clustered-stacked-bar-chart-example {
+//   padding: 0;
+// }
+.chart {
+  border: 1px solid $border-grey;
+  margin: $m-size auto;
+  padding: 0 $l-size;
+  padding-bottom: $xl-size;
+  max-width: 48rem;
+  height: 60rem;
+  width: 100%;
+  height: 100%;
+
+  @media(max-width: $scenario-breakpoint) {
+    margin: $s-size auto;
+  }
+}
+
+.rv-xy-plot {
+  position: relative;
+}
+
+line {
+  stroke: #d6d6d5 !important;
+}
+
+text {
+  font-family: 'Avenir', sans-serif;
+}
+
+.rv-xy-plot__axis__labels text {
+  fill: #939393 !important;
+}
+
+.bottom-row .rv-xy-plot__axis__labels text {
+  font-size: 9px !important;
+}
+
+.rv-xy-plot__axis--y path {
+  display: none;
+}
+
+.rv-xy-plot__axis--x path {
+  stroke: #939393 !important;
+  stroke-width: 1px;
+}
+
+.rv-xy-plot__series--line {
+  stroke-linejoin: round;
+}

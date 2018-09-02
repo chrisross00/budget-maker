@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
-import DashboardPage from '../components/DashboardPage';
+import HomePage from '../components/HomePage';
 import LoginPage from '../components/LoginPage';
 import NotFoundPage from '../components/NotFoundPage';
 import PrivateRoute from '../routers/PrivateRoute';
@@ -9,7 +9,6 @@ import PublicRoute from '../routers/PublicRoute';
 import AddIncomePage from '../components/AddIncomePage';
 import AddExpensePage from '../components/AddExpensePage';
 import AddGoalsPage from '../components/AddGoalsPage';
-import Setup from '../components/Setup';
 import ScenarioBuilder from '../components/ScenarioBuilder';
 
 export const history = createHistory();
@@ -19,8 +18,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute path="/" component={LoginPage} exact={true} />
-        <PrivateRoute path="/setup" component={Setup} />
-        <PrivateRoute path="/dashboard" component={DashboardPage} />
+        <PrivateRoute path="/dashboard" component={HomePage} />
         <PrivateRoute path="/income" component={AddIncomePage} />
         <PrivateRoute path="/expenses" component={AddExpensePage} />
         <PrivateRoute path="/goals" component={AddGoalsPage} />

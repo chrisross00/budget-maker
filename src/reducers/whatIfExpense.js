@@ -9,7 +9,7 @@ export default (state = defaultValue, action) => {
       ];
     case 'UPDATE_WHATIF_EXPENSE':
       return state.map((expense) => {
-        if (expense.expenseCategoryId === action.id) {
+        if (expense.expenseCategoryId === action.updates.expenseCategoryId) {
           return {
             ...expense,
             ...action.updates

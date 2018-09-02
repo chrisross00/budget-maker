@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import List from './List';
 import ExpenseForm from './ExpenseForm';
 import { FormHeader } from './FormHeader';
-import { addExpense, updateExpense } from '../actions/expense';
+import formatInUsd from '../helpers/formatInUsd';
+import summarySelector from '../selectors/summarySelector';
+import { startAddExpense, startUpdateExpense } from '../actions/expense';
 import { addWhatIfExpense, updateWhatIfExpense } from '../actions/whatIf';
 
 export class AddExpensePage extends React.Component {
@@ -10,22 +13,18 @@ export class AddExpensePage extends React.Component {
     this.props.history.push('/');
   }
   addExpense = (expense) => {
-    this.props.addExpense(expense);
+    console.log('addExpense prop');
+    this.props.startAddExpense(expense);
     this.props.addWhatIfExpense(expense)
   }
   updateExpense = (id, expense) => {
-    this.props.updateExpense(id, expense);
+    this.props.startUpdateExpense(id, expense);
     this.props.updateWhatIfExpense(id, expense);
   }
   render() {
     return (
-      <div>
-        <div className="page-header">
-          <div className="content-container">
-            <h1 className="page-header__title">Enter your expenses</h1>
-          </div>
-        </div>
-        <div className="content-container shadow">
+      <div className="content-container--main fadein">
+        <div className="content-container--card shadow">
           <FormHeader
             formType={'expenses'} />
           <ExpenseForm
@@ -33,7 +32,15 @@ export class AddExpensePage extends React.Component {
             isOpened={true}
             addExpense={this.addExpense}
             updateExpense={this.updateExpense}
-            expense={this.props.expense} />
+            expense={this.props.expenses} />
+        </div>
+        <div className="content-container">
+          <List
+            isOpened={true}
+            parent={'Expenses'}
+            propsToRender={this.props.expenses}
+            summaryToRender={formatInUsd(this.props.summary.totalCostOfLiving)}
+            wordToRender={'Expenses'} />
         </div>
       </div>
     );
@@ -42,12 +49,13 @@ export class AddExpensePage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    expense: state.expense
+    expenses: state.expense,
+    summary: summarySelector(state.income, state.expense, state.goal)
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  addExpense: (expense) => { dispatch(addExpense(expense)) },
-  updateExpense: (id, expense) => { dispatch(updateExpense(id, expense)) },
+  startAddExpense: (expense) => dispatch(startAddExpense(expense)),
+  startUpdateExpense: (id, expense) => dispatch(startUpdateExpense(id, expense)),
   addWhatIfExpense: (whatIfExpense) => { dispatch(addWhatIfExpense(whatIfExpense)) },
   updateWhatIfExpense: (id, whatIfExpense) => dispatch(updateWhatIfExpense(id, whatIfExpense))
 });

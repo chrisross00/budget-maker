@@ -14,15 +14,18 @@ export class IncomeForm extends React.Component {
       incomeTypeId: 1,
       description: '',
       amount: '',
-      frequencyType: 'Bi-weekly',
-      frequencyTypeId: 3,
+      // frequencyType: this.props.frequencyType ? this.props.frequencyType.frequencyType : 'Bi-weekly',
+      // frequencyTypeId: this.props.frequencyType ? this.props.frequencyType.frequencyTypeId : 3,
+      multiplier: 1,
       selectActive: false,
       selectedOption: false,
       selectedIncomeType: false,
+      valueEntered: false,
+      incomeSelected: false,
       error: ''
     };
   }
-  onValueChange = ({ value }) => { this.setState(() => ({ amount: value })) }
+  onValueChange = ({ value }) => { this.setState(() => ({ amount: value, valueEntered: true })) }
   onDescriptionChange = (e) => {
     const description = e.target.value;
     this.setState(() => ({
@@ -35,7 +38,8 @@ export class IncomeForm extends React.Component {
       this.setState(() => ({
         frequencyType: frequencyType.value,
         selectedFrequencyType: frequencyType,
-        frequencyTypeId: frequencyType.id
+        frequencyTypeId: frequencyType.id,
+        multiplier: frequencyType.multiplier
       }));
     } else {
       this.setState(() => ({
@@ -53,6 +57,7 @@ export class IncomeForm extends React.Component {
           description: selection.value,
           selectActive: selection,
           selectedIncomeType: selection,
+          incomeSelected: true,
           id: (this.props.income
             .filter(inc => inc.description === selection.value))[0].id
         });
@@ -92,7 +97,8 @@ export class IncomeForm extends React.Component {
             description: this.state.description,
             amount: this.state.amount,
             frequencyType: this.state.frequencyType,
-            frequencyTypeId: this.state.frequencyTypeId
+            frequencyTypeId: this.state.frequencyTypeId,
+            multiplier: this.state.multiplier
           })
         : this.props.addIncome({
           incomeType: this.state.description,
@@ -100,7 +106,8 @@ export class IncomeForm extends React.Component {
           description: this.state.description,
           amount: this.state.amount,
           frequencyType: this.state.frequencyType,
-          frequencyTypeId: this.state.frequencyTypeId
+          frequencyTypeId: this.state.frequencyTypeId,
+          multiplier: this.state.multiplier
         })
     }
     this.setState({
@@ -141,7 +148,7 @@ export class IncomeForm extends React.Component {
             placeholder="Who pays you?"
             value={this.state.description}
             onChange={this.onDescriptionChange} /> */}
-          {/* <div className="picker">
+          <div className="picker">
             <CreatableSelect
               isClearable
               className="text"
@@ -149,10 +156,10 @@ export class IncomeForm extends React.Component {
               options={this.props.frequencyType}
               value={this.state.selectedFrequencyType}
               onChange={this.onFrequencySelection} />
-          </div> */}
+          </div>
           <div>
             <button
-              disabled={!this.state.selectActive}
+              disabled={!this.state.incomeSelected && !this.state.valueEntered}
               className="button">Save Income</button>
           </div>
         </form>
@@ -164,7 +171,7 @@ export class IncomeForm extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    // income: state.income,
+    income: state.income,
     incomeType: state.incomeType,
     frequencyType: state.frequencyType
   }

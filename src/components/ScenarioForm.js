@@ -77,7 +77,6 @@ export class ScenarioForm extends React.Component {
     this.clearScenarioSelection();
   }
   render() {
-    console.log(this.state);
     return (
       <div>
         <div>

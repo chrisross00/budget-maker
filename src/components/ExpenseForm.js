@@ -14,7 +14,6 @@ export class ExpenseForm extends React.Component {
       amount: props.expense ? props.expense.amount : '',
       expenseCategory: props.expense ? props.expense.expenseCategory : '',
       expenseCategoryId: props.expense ? props.expense.expenseCategoryId : '',
-      expenseType: props.expense ? props.expense.expenseType : '',
       selectActive: false,
       exists: false,
       selectedOption: false,
@@ -39,18 +38,21 @@ export class ExpenseForm extends React.Component {
   }
   onExpenseSelection = (selection) => {
     if (selection) {
+      console.log(selection);
       if (expensesSelector(this.props.expenses, selection.expenseCategoryId)[0]) {
         this.setState({
           selectActive: true,
           expenseCategoryId: selection.expenseCategoryId,
           expenseCategory: selection.expenseCategory,
-          expenseType: selection.expenseType,
           value: '',
           exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
           selectedOption: selection,
           amount: (
             this.props.expenses
-              .filter(expense => expense.expenseCategoryId === selection.expenseCategoryId))[0].amount
+              .filter(expense => expense.expenseCategoryId === selection.expenseCategoryId))[0].amount,
+          id: (
+            this.props.expenses
+              .filter(expense => expense.expenseCategoryId === selection.expenseCategoryId))[0].id
         })
       }
       else {
@@ -58,7 +60,6 @@ export class ExpenseForm extends React.Component {
           selectActive: true,
           expenseCategoryId: selection.expenseCategoryId,
           expenseCategory: selection.label,
-          expenseType: selection.expenseType,
           value: '',
           exists: !!expensesSelector(this.props.expenses, selection.expenseCategoryId)[0],
           selectedOption: selection,
@@ -87,9 +88,8 @@ export class ExpenseForm extends React.Component {
     } else {
       expensesSelector(this.props.expenses, this.state.expenseCategoryId)[0]
         ? this.props.updateExpense(
-          this.state.expenseCategoryId,
+          this.state.id,
           {
-            expenseType: this.state.expenseType,
             expenseCategory: this.state.expenseCategory,
             description: this.state.expenseCategory,
             expenseCategoryId: this.state.expenseCategoryId,
@@ -97,7 +97,6 @@ export class ExpenseForm extends React.Component {
           })
         : this.props.addExpense(
           {
-            expenseType: this.state.expenseType,
             expenseCategory: this.state.expenseCategory,
             description: this.state.expenseCategory,
             expenseCategoryId: this.state.expenseCategoryId,
@@ -107,7 +106,6 @@ export class ExpenseForm extends React.Component {
         amount: '',
         expenseCategory: '',
         expenseCategoryId: '',
-        expenseType: '',
         selectActive: false,
         exists: false,
         selectedOption: '',
@@ -115,6 +113,7 @@ export class ExpenseForm extends React.Component {
         description: ''
       })
     }
+    this.creatableSelect.focus();
   }
   render() {
     const word = this.state.exists ? 'Update' : 'Add';
@@ -128,7 +127,9 @@ export class ExpenseForm extends React.Component {
 
           <div className="picker">
             <CreatableSelect
+              ref={el => { this.creatableSelect = el }}
               isClearable
+              autoFocus={true}
               className="text"
               options={this.props.expenseCategory}
               value={this.state.selectedOption}

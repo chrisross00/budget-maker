@@ -4,25 +4,12 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import CurrencyFormat from 'react-currency-format';
 import numeral from 'numeral';
 import expensesTotal from '../selectors/total-selector';
+import summarySelector from '../selectors/summarySelector';
 
 class GoalsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.goal ? this.props.goal.name : '',
-      target: this.props.goal ? this.props.goal.target : '',
-      amount: this.props.goal ? this.props.goal.amount : '',
-      projection: this.props.goal ? this.props.goal.projection : '',
-      difference: this.props.goal ? this.props.goal.difference : '',
-      contributableAmount: this.props.goal ? this.props.goal.contributableAmount : '',
-      changed: false,
-      calculated: false,
-      duration: '',
-      error: '',
-      startingCash: '',
-      willMakeGoal: false,
-      pickerSelection: '',
-      timeToHitGoal: '',
       skipGoals: this.props.onSkipGoals ? true : false
     }
   }
@@ -33,26 +20,29 @@ class GoalsForm extends React.Component {
         this.setState(() => ({
           selection: selection.id,
           target: '',
-          name: selection.label,
+          description: selection.label,
           value: '',
-          pickerSelection: selection
+          pickerSelection: selection,
+          savings: this.props.summary.savings ? this.props.summary.savings : ''
         }))
       } else {
         this.setState(() => ({
           selection: selection.id,
           target: expensesTotal(this.props.expenses) * parseFloat(dur),
-          name: selection.label,
+          description: selection.label,
           value: expensesTotal(this.props.expenses) * parseFloat(dur),
-          pickerSelection: selection
+          pickerSelection: selection,
+          savings: this.props.summary.savings ? this.props.summary.savings : ''
         }))
       }
     } else {
       this.setState(() => ({
         selection: '',
         target: '',
-        name: '',
+        description: '',
         value: selection,
-        pickerSelection: selection
+        pickerSelection: selection,
+        savings: ''
       }))
     }
   }
@@ -64,7 +54,7 @@ class GoalsForm extends React.Component {
   }
   onStartingCashChange = ({ value }) => {
     this.setState({
-      startingCash: value,
+      savings: value,
       changed: true
     });
   }
@@ -83,12 +73,12 @@ class GoalsForm extends React.Component {
   onCalculate = (e) => {
     e.preventDefault();
     if (this.state.target === ''
-      || this.state.startingCash === ''
+      || this.state.savings === ''
       || this.state.contributableAmount === '') {
       this.setState(() => ({
         error: 'Please fill out all required fields'
       }));
-    } else if (parseFloat(this.state.startingCash) >= parseFloat(this.state.target)) {
+    } else if (parseFloat(this.state.savings) >= parseFloat(this.state.target)) {
       this.setState(() => ({
         error: 'You already beat your goal — looks like you already have it in savings!'
       }))
@@ -98,13 +88,13 @@ class GoalsForm extends React.Component {
       const currentMonth = date.getMonth();
       const endOfYear = 11;
       const dateDiff = (endOfYear - currentMonth);
-      const calculatedMonthlyRequired = parseFloat((this.state.target - this.state.startingCash) / dateDiff);
+      const calculatedMonthlyRequired = parseFloat((this.state.target - this.state.savings) / dateDiff);
       const contributionProjection = parseFloat(this.state.contributableAmount * dateDiff)
-      const startingCash = parseFloat(this.state.startingCash)
-      const calculatedProjectedAmount = parseFloat(startingCash + contributionProjection);
+      const savings = parseFloat(this.state.savings)
+      const calculatedProjectedAmount = parseFloat(savings + contributionProjection);
       const calculatedDifferential = parseFloat(this.state.target - calculatedProjectedAmount);
       const willMakeGoal = calculatedProjectedAmount >= this.state.target ? true : false;
-      const timeToHitGoal = parseFloat(this.state.target - this.state.startingCash) / parseFloat(this.state.contributableAmount)
+      const timeToHitGoal = parseFloat(this.state.target - this.state.savings) / parseFloat(this.state.contributableAmount)
 
       this.setState(() => ({
         calculated: true,
@@ -120,14 +110,15 @@ class GoalsForm extends React.Component {
     }
   }
   saveGoals = () => {
+    console.log(this.state.timeToHitGoal);
     this.props.onSaveGoal({
-      name: this.state.name,
+      description: this.state.description,
       target: this.state.target,
       amount: this.state.contributableAmount,
       projection: this.state.projection,
       difference: this.state.difference,
       contributableAmount: this.state.amount,
-      startingCash: this.state.startingCash
+      savings: this.state.savings
     });
   }
   onSkipGoals = () => {
@@ -175,7 +166,7 @@ class GoalsForm extends React.Component {
             thousandSeparator={true}
             prefix={'$'}
             placeholder="Have you saved up already?"
-            value={this.state.startingCash}
+            value={this.state.savings}
             onValueChange={this.onStartingCashChange} />
           <label htmlFor="contribution">Monthly payment</label>
 
@@ -196,28 +187,7 @@ class GoalsForm extends React.Component {
               onClick={this.saveGoals}>Save Goal</button>
 
           </div>
-          {/* Change this here down to a Goal Summary */}
           {
-            this.state.calculated
-              ? <div>
-                <h2>Here's a summary of your goal:</h2>
-                <p>If you save <strong>{contributableAmount}</strong> per month, you'll have <strong>{projection}</strong> by the end of the year.</p>
-                <p>You need to save at least <strong>{amount}</strong> per month to save <strong>{target}</strong> by the end of the year.</p>
-                {this.state.willMakeGoal
-                  ? (
-                    <div className="goal--good">
-                      <p>You'll make your goal by the end of the year, and beat your goal by {difference}.</p>
-                    </div>
-                  )
-                  : (
-                    <div className="goal--bad">
-                      <p>You are <strong>{difference}</strong> short of achieving your goal by the end of the year. Add <strong>{monthlyDifference}</strong> per month.</p>
-                      <p>At your current rate, it will take <strong>{timeToHitGoal}</strong> months to achieve your goal.</p>
-                    </div>
-                  )}
-              </div>
-              : ''
-          }{
             this.state.skipGoals
               ? <div className="button__container">
                 <button className="button"
@@ -238,7 +208,8 @@ const mapStateToProps = (state) => {
     emergencyFund: state.emergencyFund,
     goalType: state.goalType,
     expenses: state.expense,
-    expenseTotal: expensesTotal(state.expense)
+    expenseTotal: expensesTotal(state.expense),
+    summary: summarySelector(state.income, state.expense, state.goal)
   }
 };
 

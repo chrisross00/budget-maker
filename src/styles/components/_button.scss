@@ -9,6 +9,8 @@
   padding: $s-size;
   text-decoration: none;
   min-width: 108px;
+  max-height: 4.2rem;
+
   &:disabled {
     background: $off-white;
     color: $border-grey;
@@ -27,4 +29,6 @@
   display: flex;
   float: right;
   justify-content: space-between;
+  max-width: 60rem;
+  min-width: 20rem;
 }

@@ -3,8 +3,7 @@
 }
 
 .text-input {
-  @extend .text;
-  border: 1px solid $border-grey;
+  @extend .text; // border: 1px solid $border-grey;
   height: 50px;
   font-size: $font-size-large;
   padding: $s-size;
